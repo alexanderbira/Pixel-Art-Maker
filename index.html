@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" type="image/png" href="icons/favicon.png"/>
+    <title>Pixel Art Maker</title>
+
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="colourerStyle.css" rel="stylesheet" type="text/css" />
+    <link href="popup.css" rel="stylesheet" type="text/css" />
+    <link href="loadingStyle.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+
+
+    <div id="loadingScreen">
+      <div class="loadingText"><b>Loading...</b></div>
+      <div class="loadingSegment" style="transform: rotate(0deg) translate(0px,-100px); animation-delay: 0.1s"></div>
+      <div class="loadingSegment" style="transform: rotate(22.5deg) translate(0px,-100px); animation-delay: 0.2s"></div>
+      <div class="loadingSegment" style="transform: rotate(45deg) translate(0px,-100px); animation-delay: 0.3s"></div>
+      <div class="loadingSegment" style="transform: rotate(67.5deg) translate(0px,-100px); animation-delay: 0.4s"></div>
+      <div class="loadingSegment" style="transform: rotate(90deg) translate(0px,-100px); animation-delay: 0.5s"></div>
+      <div class="loadingSegment" style="transform: rotate(112.5deg) translate(0px,-100px); animation-delay: 0.6s"></div>
+      <div class="loadingSegment" style="transform: rotate(135deg) translate(0px,-100px); animation-delay: 0.7s"></div>
+      <div class="loadingSegment" style="transform: rotate(157.5deg) translate(0px,-100px); animation-delay: 0.8s"></div>
+      <div class="loadingSegment" style="transform: rotate(180deg) translate(0px,-100px); animation-delay: 0.9s"></div>
+      <div class="loadingSegment" style="transform: rotate(202.5deg) translate(0px,-100px); animation-delay: 1s"></div>
+      <div class="loadingSegment" style="transform: rotate(225deg) translate(0px,-100px); animation-delay: 1.1s"></div>
+      <div class="loadingSegment" style="transform: rotate(247.5deg) translate(0px,-100px); animation-delay: 1.2s"></div>
+      <div class="loadingSegment" style="transform: rotate(270deg) translate(0px,-100px); animation-delay: 1.3s"></div>
+      <div class="loadingSegment" style="transform: rotate(292.5deg) translate(0px,-100px); animation-delay: 1.4s"></div>
+      <div class="loadingSegment" style="transform: rotate(315deg) translate(0px,-100px); animation-delay: 1.5s"></div>
+      <div class="loadingSegment" style="transform: rotate(337.5deg) translate(0px,-100px); animation-delay: 1.6s"></div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="menuparent" style="background-color: lightgray; left: 0; width: 90px; height: 750px; position: absolute; top: 0; padding: 4px 10px 4px 1px">
+    
+      <div class="menu" style="text-align: center; cursor: pointer; background-image: url('icons/save.png'); background-size: contain;"                onclick="document.getElementById('pixelSizePopup').style.display='inline';"   title="Convert to PNG image (alt+s)"      id="saver"   ></div>
+      <div class="menu" style="top: 110px; text-align: center; cursor: pointer; background-image: url('icons/reset.png'); background-size: contain;"   onclick="reset()"      title="Reset the whole grid (alt+r)"                   ></div>
+      <div class="menu" style="top: 220px; text-align: center; cursor: pointer; background-image: url('icons/sample.png'); background-size: contain;"  onclick="sample(this)" title="Get a pixel's colour (alt+p)"      id="sampler" ></div>
+      <div class="menu" style="top: 330px; text-align: center; cursor: pointer; background-image: url('icons/eraser.png'); background-size: contain;"  onclick="erase(this)"  title="Set colour to blank (alt+e)"       id="eraser"  ></div>
+      <div class="menu" style="top: 440px; text-align: center; cursor: pointer; background-image: url('icons/fill.png'); background-size: contain;"    onclick="filler(this)" title="Fill in enclosed sections (alt+f)" id="filler"  ></div>
+      <div class="menu" style="top: 550px; text-align: center; cursor: pointer; background-image: url('icons/palette.png'); background-size: contain; border-width: 6px; width: 78px; height: 78px;" onclick="colourer(this)" title="Select a colour (alt+c)"   id="colourer"  ></div>
+      <div class="menu" style="top: 660px; text-align: center; cursor: pointer; background-image: url('icons/line.png'); background-size: contain;"    onclick="" title="Draw a line" id="filler"  ></div>
+
+    </div>
+
+
+
+    <div id="colours">
+      
+      <div id="coloursheader">Click here to move</div>
+
+      <div id="colourCirclesContainer">
+        <div id="colourAdd" class="colourAdd" onclick="newColour();" title="Create new colour">+</div>
+        <div id="colourMinus" class="colourAdd" onclick="delColour();" title="Delete selected colour">-</div>
+      </div>
+      
+      <div id="topRightContainer">
+
+        <div id="nativeSelectorContainer">
+          <b>Colour picker</b>
+          <input type="color" id="nativeSelector" oninput="changeColour(this.value)" onchange="exportColours()" title="Use your browser's colour picker" />
+        </div>
+
+        <div id="cssColour">
+          <b>CSS colour</b>
+          <input id="cssInput" type="text" placeholder="CSS format" oninput="changeColour(document.getElementById('cssInput').value)" onchange="exportColours()" title="Type in a CSS-compatible colour code like colour name, hex, or rgb" />
+        </div>
+
+      </div>
+
+      <div id="slidersContainer">
+        R <input type="range" min="0" max="255" id="Rslider" class="colSlider" oninput="changeRGBAHSL('R', this.value)" value="0" onchange="exportColours()" title="Change the red value" /> <input type="number" min="0" max="255" id="Rbox" class="colInput" oninput="changeRGBAHSL('R', this.value)" value="0" onchange="exportColours()" title="Change the red value" /><br>
+        G <input type="range" min="0" max="255" id="Gslider" class="colSlider" oninput="changeRGBAHSL('G', this.value)" value="0" onchange="exportColours()" title="Change the green value" /> <input type="number" min="0" max="255" id="Gbox" class="colInput" oninput="changeRGBAHSL('G', this.value)" value="0" onchange="exportColours()" title="Change the green value" /><br>
+        B <input type="range" min="0" max="255" id="Bslider" class="colSlider" oninput="changeRGBAHSL('B', this.value)" value="0" onchange="exportColours()" title="Change the blue value" /> <input type="number" min="0" max="255" id="Bbox" class="colInput" oninput="changeRGBAHSL('B', this.value)" value="0" onchange="exportColours()" title="Change the blue value" /><br>
+        A <input type="range" min="0" max="255" id="Aslider" class="colSlider" oninput="changeRGBAHSL('A', this.value)" value="255" onchange="exportColours()" title="Change the alpha (opacity) value" /> <input type="number" min="0" max="255" id="Abox" class="colInput" oninput="changeRGBAHSL('A', this.value)" value="255" onchange="exportColours()" title="Change the alpha (opacity) value" /><br>
+        H <input type="range" min="0" max="255" id="Hslider" class="colSlider" oninput="changeRGBAHSL('H', this.value)" value="0" onchange="exportColours()" title="Change the hue value" /> <input type="number" min="0" max="255" id="Hbox" class="colInput" oninput="changeRGBAHSL('H', this.value)" value="0" onchange="exportColours()" title="Change the hue value" /><br>
+        S <input type="range" min="0" max="255" id="Sslider" class="colSlider" oninput="changeRGBAHSL('S', this.value)" value="0" onchange="exportColours()" title="Change the saturation value" /> <input type="number" min="0" max="255" id="Sbox" class="colInput" oninput="changeRGBAHSL('S', this.value)" value="0" onchange="exportColours()" title="Change the saturation value" /><br>
+        L <input type="range" min="0" max="255" id="Lslider" class="colSlider" oninput="changeRGBAHSL('L', this.value)" value="0" onchange="exportColours()" title="Change the light value" /> <input type="number" min="0" max="255" id="Lbox" class="colInput" oninput="changeRGBAHSL('L', this.value)" value="0" onchange="exportColours()" title="Change the light value" />
+      </div>
+      
+
+    </div>
+
+
+    <div id="sizePopup" class="popupContainer">
+      <form onsubmit="start(); return false;">
+        <div class="popupTitle">Set Height and Width</div>
+        <div class="popupDescription">Please type in the height and width of the pixel grid you want to generate:</div>
+        <input type="number" class="popupInput" min="1" max="150" placeholder="height" id="startWidth" /><br>
+        <input type="number" class="popupInput" min="1" max="150" placeholder="width" id="startHeight" />
+        <button class="popupConfirm">Confirm</button>
+      </form>
+    </div>
+
+
+    <div id="pixelSizePopup" class="popupContainer" style="display: none" onkeydown="if(event.code=='Escape'){this.style.display='none'}">
+      <div class="exitButton" onclick="document.getElementById('pixelSizePopup').style.display='none';">x</div>
+      <form onsubmit="getImage(); return false;">
+        <div class="popupTitle">Set Pixel Scale</div>
+        <div class="popupDescription" style="font-size: 14px;">Please type in how many pixels in the final image one pixel in the grid should be. For example, a 2x2 grid with this value set to 10 would end up being a 20x20 image, with each pixel being 10x10 pixels.</div>
+        <input type="number" class="popupInput" min="1" max="50" placeholder="Pixel Size" id="pxsz" /><br>
+        <button class="popupConfirm">Confirm</button>
+      </form>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    <script src="generatepng.js"></script>
+    <script src="script.js"></script>
+    <script src="colourerScript.js"></script>
+    <script src="keybinds.js"></script>
+    <script src="dragging.js"></script>
+    <script>window.onload=()=>document.body.removeChild(document.getElementById('loadingScreen'));</script>
+  
+  </body>
+</html>
