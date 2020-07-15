@@ -8,7 +8,7 @@
   background: transparent;
   float: left;
   user-select: none;
-  cursor: url('/icons/cursor.cur'), url('/icons/cursor.cur'), none;
+  cursor: url('../icons/cursor.cur'), url('../icons/cursor.cur'), none;
 }
 
 body {
