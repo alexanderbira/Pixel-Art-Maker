@@ -1,6 +1,6 @@
-@import "/styles/loadingStyle.css";
-@import "/styles/colourerStyle.css";
-@import "/styles/popup.css";
+@import "loadingStyle.css";
+@import "colourerStyle.css";
+@import "popup.css";
 
 .pixel {
   border-left: solid gray 1px;
