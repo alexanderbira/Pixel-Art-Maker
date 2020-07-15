@@ -6,10 +6,7 @@
     <link rel="icon" type="image/png" href="icons/favicon.png"/>
     <title>Pixel Art Maker</title>
 
-    <link href="style.css" rel="stylesheet" type="text/css" />
-    <link href="colourerStyle.css" rel="stylesheet" type="text/css" />
-    <link href="popup.css" rel="stylesheet" type="text/css" />
-    <link href="loadingStyle.css" rel="stylesheet" type="text/css" />
+    <link href="styles/style.css" rel="stylesheet" type="text/css" />
   </head>
 
   <body>
@@ -36,19 +33,6 @@
     </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     <div id="menuparent" style="background-color: lightgray; left: 0; width: 90px; height: 750px; position: absolute; top: 0; padding: 4px 10px 4px 1px">
     
       <div class="menu" style="text-align: center; cursor: pointer; background-image: url('icons/save.png'); background-size: contain;"                onclick="document.getElementById('pixelSizePopup').style.display='inline';"   title="Convert to PNG image (alt+s)"      id="saver"   ></div>
@@ -60,7 +44,6 @@
       <div class="menu" style="top: 660px; text-align: center; cursor: pointer; background-image: url('icons/line.png'); background-size: contain;"    onclick="" title="Draw a line" id="filler"  ></div>
 
     </div>
-
 
 
     <div id="colours">
@@ -135,12 +118,11 @@
 
 
     
-    
-    <script src="generatepng.js"></script>
-    <script src="script.js"></script>
-    <script src="colourerScript.js"></script>
-    <script src="keybinds.js"></script>
-    <script src="dragging.js"></script>
+    <script src="scripts/script.js"></script>
+    <script src="scripts/generatepng.js"></script>
+    <script src="scripts/colourerScript.js"></script>
+    <script src="scripts/keybinds.js"></script>
+    <script src="scripts/dragging.js"></script>
     <script>window.onload=()=>document.body.removeChild(document.getElementById('loadingScreen'));</script>
   
   </body>

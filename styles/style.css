@@ -1,10 +1,14 @@
+@import "/styles/loadingStyle.css";
+@import "/styles/colourerStyle.css";
+@import "/styles/popup.css";
+
 .pixel {
   border-left: solid gray 1px;
   border-top: solid gray 1px;
   background: transparent;
   float: left;
   user-select: none;
-  cursor: url('icons/cursor.cur'), url('icons/cursor.cur'), none;
+  cursor: url('/icons/cursor.cur'), url('/icons/cursor.cur'), none;
 }
 
 body {
