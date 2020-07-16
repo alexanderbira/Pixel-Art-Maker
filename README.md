@@ -7,6 +7,7 @@
   <li>Eraser - <code>alt+e</code></li>
   <li>Fill area - <code>alt+f</code></li>
   <li>Pick colour - <code>alt+c</code></li>
+  <li>Draw line - <code>alt+l</code></li>
 </ul>
 
 <h1>Features</h1>
@@ -19,6 +20,7 @@
   <li>No loss in image quality</li>
   <li>Create new colours and have multiple at a time to choose between. You can delete these, and they are save accross sessions</li>
   <li>Colour menu can be dragged and relocated across page</li>
+  <li>Use the line tool and click on one point, then hover elsewhere to see a preview, and click to apply</li>
  </ul>
  
 <h1>How to use</h1>
