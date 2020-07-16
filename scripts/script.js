@@ -55,12 +55,24 @@ function makeImage(width, height, multiplier, data) {
 
 //function is run when a pixel is hovered
 function divHover(element) {
-  if ((!selecting) && (!movingSetting) && (!filling)) {
+  if ((!selecting) && (!movingSetting) && (!filling) && (!lining)) {
     let currentBackground = element.style.backgroundColor;
     if (!mouseDown) {
       element.setAttribute("onmouseleave", "this.style.backgroundColor='"+currentBackground+"';this.removeAttribute('onmouseleave')"); //if the mouse is not down, make it lose the colour when hovered out, and also delete the hover out event
     } 
     element.style.backgroundColor = colour;
+
+  } else if (lining) { //create line
+    
+    if (firstPoint !== undefined) { //make line if a point is picked
+      let secondPoint = getXY(element);
+      line(firstPoint[0], firstPoint[1], secondPoint[0], secondPoint[1]);
+    } else { //otherwise colour in the hovered one
+      let currentBackground = element.style.backgroundColor;
+      element.setAttribute("onmouseleave", "this.style.backgroundColor='"+currentBackground+"';this.removeAttribute('onmouseleave')");
+      element.style.backgroundColor = colour;
+    }
+
   }
 }
 
@@ -76,6 +88,7 @@ function divClick(element) {
         let secondPoint = getXY(element);
         line(firstPoint[0], firstPoint[1], secondPoint[0], secondPoint[1]);
         firstPoint = undefined;
+        newlyLined = [];
       }
     }
   } else if (selecting) {
@@ -255,9 +268,19 @@ function line(x0, y0, x1, y1) {
   var sy = (y0 < y1) ? 1 : -1;
   var err = dx - dy;
 
-  while(true) {
-    matrixForLiner[y0][x0].style.backgroundColor = colour; // Add to the list of filled elements
+  
 
+  for (element of newlyLined) {
+    element[0].style.backgroundColor = element[1];
+  }
+
+  newlyLined = [];
+
+  while(true) {
+    let element = matrixForLiner[y0][x0];
+    newlyLined.push([element, element.style.backgroundColor]);
+    element.style.backgroundColor = colour; // Add to the list of filled elements
+    
     if ((x0 === x1) && (y0 === y1)) break;
     var e2 = 2*err;
     if (e2 > -dy) { err -= dy; x0  += sx; }
@@ -393,6 +416,8 @@ function liner(button) {
     lining = false;
     button.style.backgroundColor = '';
     matrixForLiner = null;
+    newlyLined = null;
+
   } else {
     lining = true;
     button.style.backgroundColor = 'white';
@@ -404,7 +429,7 @@ function liner(button) {
     }
 
     firstPoint = undefined;
-
+    newlyLined = [];
   }
 }
 
@@ -426,36 +451,12 @@ window.onbeforeunload = function (e) {
 }
 
 
-/*
-
-
-
-
-1. When line button clicked, switch to line mode and generate a global matrix like in the fill tool
-2. When first div is clicked store the clicked div's X and Y from the global matrix as a global variable (firstPoint)
-3. When second div is hovered (you'll know it's second because firstPoint variable will be defined), call back to the line() function along with the element that is hovered as a parameter so it can find it in the matrix
-4. In the line() function, make the line with the correct colour and in the loops before setting the new colour, 
-   create a global variable with all the >elements< that are newly coloured with their old colour (using getDivColour())
-5. When the hovered div changes, recolour all the old divs and then re-run the above to make new line and list of newly filled divs
-6. When a div click is detected, delete the list of filled elements and make first div undefined again (so no line is generated)
-7. When the line button is re-clicked, delete the global matrix (set value to null) and change back to paint/regular mode
-
-
-
-
-
-*/
-
-
-
-
 
 
 /*
 
 tools to add:
- 
-line
+
 duplicate area
 
 */

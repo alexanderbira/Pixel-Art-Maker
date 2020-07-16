@@ -8,5 +8,6 @@ function keyPressHandler(e) {
     if (e.code == "KeyE") erase(document.getElementById('eraser')); //erase
     if (e.code == "KeyF") filler(document.getElementById('filler')); //fill
     if (e.code == "KeyC") colourer(document.getElementById('colourer')); //colour
+    if (e.code == "KeyL") liner(document.getElementById('liner')); //line
   }
 }
