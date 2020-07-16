@@ -69,6 +69,15 @@ function divClick(element) {
   if (((!selecting) && (!filling)) && (!movingSetting)) {
     element.style.backgroundColor = colour;
     element.removeAttribute("onmouseleave"); //ensure the colour isn't reset by the hover event above
+    if (lining) {
+      if (firstPoint === undefined) {
+        firstPoint = getXY(element);
+      } else {
+        let secondPoint = getXY(element);
+        line(firstPoint[0], firstPoint[1], secondPoint[0], secondPoint[1]);
+        firstPoint = undefined;
+      }
+    }
   } else if (selecting) {
     changeColour(element.style.backgroundColor);
   } else {
@@ -76,6 +85,18 @@ function divClick(element) {
   }
 }
 
+function getXY(element) {
+  let xCounter = 0;
+  let yCounter = 0;
+  for (row of matrixForLiner) {
+    if (Object.values(row).indexOf(element) !== -1) {
+      xCounter = Object.values(row).indexOf(element);
+      break;
+    }
+    yCounter ++;
+  }
+  return [xCounter, yCounter];
+}
 
 /* makes and displays the grid with the following layout:
 <span><div></div><div></div></span<br>
@@ -235,7 +256,7 @@ function line(x0, y0, x1, y1) {
   var err = dx - dy;
 
   while(true) {
-    setPixel(x0, y0); // Do what you need to for this
+    matrixForLiner[y0][x0].style.backgroundColor = colour; // Add to the list of filled elements
 
     if ((x0 === x1) && (y0 === y1)) break;
     var e2 = 2*err;
@@ -255,7 +276,7 @@ function line(x0, y0, x1, y1) {
 
 
 
-//when the save button is clicked
+//when the save button is clicked and the pixel size is confirmed
 function getImage() {
   document.getElementById('pixelSizePopup').style.display = 'none';
   let myImage = makeImage(settings[0],settings[1], parseInt(document.getElementById('pxsz').value), getImageData());
@@ -286,6 +307,9 @@ function sample(button) {
   document.getElementById('filler').style.backgroundColor = '';
   filling = false;
 
+  document.getElementById('liner').style.backgroundColor = '';
+  lining = false;
+
 
   if (button.style.backgroundColor == 'white') {
     selecting = false;
@@ -304,6 +328,9 @@ function erase(button) {
 
   document.getElementById('filler').style.backgroundColor = '';
   filling = false;
+
+  document.getElementById('liner').style.backgroundColor = '';
+  lining = false;
 
 
   if (button.style.backgroundColor == 'white') {
@@ -324,6 +351,9 @@ function filler(button) {
   document.getElementById('eraser').style.backgroundColor = '';
   colour = oldcol;
 
+  document.getElementById('liner').style.backgroundColor = '';
+  lining = false;
+
 
   if (button.style.backgroundColor == 'white') {
     filling = false;
@@ -333,8 +363,6 @@ function filler(button) {
     button.style.backgroundColor = 'white';
   }
 }
-
-
 
 //when the filler button is clicked
 function colourer(button) {
@@ -350,8 +378,34 @@ function colourer(button) {
   }
 }
 
-function liner() {
-  //change settings and variables the call a line() function which follows the below.  
+//when the line button is clicked
+function liner(button) {
+  document.getElementById('sampler').style.backgroundColor = '';
+  selecting = false;
+
+  document.getElementById('eraser').style.backgroundColor = '';
+  colour = oldcol;
+
+  document.getElementById('filler').style.backgroundColor = '';
+  filling = false;
+
+  if (button.style.backgroundColor == 'white') {
+    lining = false;
+    button.style.backgroundColor = '';
+    matrixForLiner = null;
+  } else {
+    lining = true;
+    button.style.backgroundColor = 'white';
+
+    matrixForLiner = []; //matrix of all elements used to make lines
+    let spans = document.getElementsByClassName('rowSpan');
+    for (span of spans) {
+      matrixForLiner.push(span.children);
+    }
+
+    firstPoint = undefined;
+
+  }
 }
 
 
@@ -373,21 +427,18 @@ window.onbeforeunload = function (e) {
 
 
 /*
-Line drawing:
-
-
-1. get all the elements as matrix
-2. get the coord of the clicked square
-3. set the divhover so that it finds its position in the matrix with x and y
-4. when the divhover changes make it fill in the line with the algorith, but before colouring the pixel add it and its old colour to a list of pixels
-5. if click, move out of line mode
-6. if no click and hovered div changes, re-fill all the old divs from list and redo
 
 
 
-make it so when tool selected no apparent differences (div still coloured when hovered), but when clicked, fills in that pixel and sets off the line divhover mode, and so live line is shown on pixel hover change. when clicked, line is filled in and line mode is still on, but a new starting pixel is needed
 
-
+1. When line button clicked, switch to line mode and generate a global matrix like in the fill tool
+2. When first div is clicked store the clicked div's X and Y from the global matrix as a global variable (firstPoint)
+3. When second div is hovered (you'll know it's second because firstPoint variable will be defined), call back to the line() function along with the element that is hovered as a parameter so it can find it in the matrix
+4. In the line() function, make the line with the correct colour and in the loops before setting the new colour, 
+   create a global variable with all the >elements< that are newly coloured with their old colour (using getDivColour())
+5. When the hovered div changes, recolour all the old divs and then re-run the above to make new line and list of newly filled divs
+6. When a div click is detected, delete the list of filled elements and make first div undefined again (so no line is generated)
+7. When the line button is re-clicked, delete the global matrix (set value to null) and change back to paint/regular mode
 
 
 
