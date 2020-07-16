@@ -63,13 +63,14 @@ function divHover(element) {
     element.style.backgroundColor = colour;
 
   } else if (lining) { //create line
-    
+
     if (firstPoint !== undefined) { //make line if a point is picked
       let secondPoint = getXY(element);
       line(firstPoint[0], firstPoint[1], secondPoint[0], secondPoint[1]);
+
     } else { //otherwise colour in the hovered one
       let currentBackground = element.style.backgroundColor;
-      element.setAttribute("onmouseleave", "this.style.backgroundColor='"+currentBackground+"';this.removeAttribute('onmouseleave')");
+      element.setAttribute("onmouseout", "this.style.backgroundColor='"+currentBackground+"';this.removeAttribute('onmouseout');");
       element.style.backgroundColor = colour;
     }
 
@@ -78,21 +79,26 @@ function divHover(element) {
 
 //function is run when a pixel is clicked
 function divClick(element) {
-  if (((!selecting) && (!filling)) && (!movingSetting)) {
+  if ((!selecting) && (!filling) && (!movingSetting) && (!lining)) {
     element.style.backgroundColor = colour;
     element.removeAttribute("onmouseleave"); //ensure the colour isn't reset by the hover event above
-    if (lining) {
-      if (firstPoint === undefined) {
-        firstPoint = getXY(element);
-      } else {
-        let secondPoint = getXY(element);
-        line(firstPoint[0], firstPoint[1], secondPoint[0], secondPoint[1]);
-        firstPoint = undefined;
-        newlyLined = [];
-      }
+
+    //!!!!!!!!!!!!   for some reson the pixel stays coloured then click dragged in lining mode - shouldn't !!!!!!!!!
+
+  } else if (lining) {
+    
+    if (firstPoint === undefined) {
+      firstPoint = getXY(element);
+    } else {
+      let secondPoint = getXY(element);
+      line(firstPoint[0], firstPoint[1], secondPoint[0], secondPoint[1]);
+      firstPoint = undefined;
+      newlyLined = [];
     }
+
   } else if (selecting) {
     changeColour(element.style.backgroundColor);
+
   } else {
     fill(element);
   }
@@ -137,7 +143,7 @@ function makeGrid(width, height) {
 
       newDiv.setAttribute("onclick","divClick(this)");
       newDiv.setAttribute("onmouseenter","divHover(this)");
-      newDiv.setAttribute("onmousedown","divHover(this)");
+      newDiv.setAttribute("onmousedown","if(!lining){divHover(this)}");
       
       //make divs on the right and bottom have a border
       if (b-width == -1) {
