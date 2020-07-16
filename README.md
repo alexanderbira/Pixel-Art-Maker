@@ -2,12 +2,12 @@
 <p>This website allows you to make nice pixel art and export it as a PNG.</p>
 <h1>Tools & Shortcuts</h1>
 <ul>
-  <li>Reset grid      <kbd>alt+r</kbd></li>
-  <li>Sample colour   <kbd>alt+p</kbd></li>
-  <li>Eraser          <kbd>alt+e</kbd></li>
-  <li>Fill area       <kbd>alt+f</kbd></li>
-  <li>Pick colour     <kbd>alt+c</kbd></li>
-  <li>Draw line       <kbd>alt+l</kbd></li>
+  <li>Reset grid - <kbd>alt+r</kbd></li>
+  <li>Sample colour - <kbd>alt+p</kbd></li>
+  <li>Eraser - <kbd>alt+e</kbd></li>
+  <li>Fill area - <kbd>alt+f</kbd></li>
+  <li>Pick colour - <kbd>alt+c</kbd></li>
+  <li>Draw line - <kbd>alt+l</kbd></li>
 </ul>
 
 # Features
@@ -30,7 +30,7 @@
   <li>Hover over a pixel for a preview of what it looks like</li>
   <li>Click on a pixel to apply the colour change, or click and hold to colour every pixel your mouse goes over</li>
   <li>Use tools to simplify the drawing process</li>
-  <li>Click the save button (<code>alt+s</code>)</li>
+  <li>Click the save button (<kbd>alt+s</kbd>)</li>
   <li>Fill in the pixel scaler popup</li>
   <li>Scroll down and your image is there. You can copy it or save it with a right click</li>
 </ol>
