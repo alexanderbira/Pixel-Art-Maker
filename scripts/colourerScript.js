@@ -88,9 +88,6 @@ function changeRGBAHSL(measure, value) {
   updateSliders(currentColour);
 
   changeColour(`rgb(${currentColour[0]}, ${currentColour[1]}, ${currentColour[2]}, ${currentColour[3]/255})`);
-
-
-  //change slider and input values and !colour variables!
 }
 
 //credit: https://stackoverflow.com/questions/2353211/hsl-to-rgb-color-conversion
@@ -166,6 +163,7 @@ function newColour() {
   let newCircle = document.createElement('div');
   newCircle.classList.add('colour');
   newCircle.setAttribute('onclick', "colourCircleClick(this)");
+  newCircle.style.color = 'black';
 
   document.getElementById('colourCirclesContainer').appendChild(newCircle);
 }

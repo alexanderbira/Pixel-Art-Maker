@@ -8,11 +8,11 @@
   background: transparent;
   float: left;
   user-select: none;
-  cursor: url('../icons/cursor.cur'), url('../icons/cursor.cur'), none;
+  cursor: url('../icons/cursor.cur') 8 8, auto;
 }
 
 body {
-  padding-left: 105px;
+  padding-left: 56px;
   padding-top: 1px;
   margin: 0px;
   height: 100vh;
@@ -20,10 +20,42 @@ body {
 }
 
 .menu {
-  position: absolute;
-  left: 5px;
-  width: 90px;
-  height: 90px;
+  margin-left: 3px;
+  margin-top: 3px;
+  width: 40px;
+  height: 40px;
   line-height: normal;
   border: solid black 1px;
+  text-align: center;
+  cursor: pointer;
+  background-size: contain;
 }
+
+#menuparent {
+  background-color: lightgray;
+  left: 0;
+  width: 40px;
+  height: 315px;
+  position: absolute;
+  top: 0;
+  padding: 4px 10px 4px 1px;
+}
+
+
+/*
+
+On #menuparent:
+
+animation: up 1.5s linear forwards;
+
+@keyframes up {
+  0% {transform: none}
+  100% {transform: translateY(-325px)}
+}
+
+
+
+new button at bottom of menu with up arrow image. When clicked, the entire menu goes up over screen until only arrow is left
+but as the menu goes up, the arrow spins and ends up being a down arrow that can be re-clicked to reverse
+
+*/

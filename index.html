@@ -33,15 +33,15 @@
     </div>
 
 
-    <div id="menuparent" style="background-color: lightgray; left: 0; width: 90px; height: 750px; position: absolute; top: 0; padding: 4px 10px 4px 1px">
+    <div id="menuparent">
     
-      <div class="menu" style="text-align: center; cursor: pointer; background-image: url('icons/save.png'); background-size: contain;"                onclick="document.getElementById('pixelSizePopup').style.display='inline';"   title="Convert to PNG image (alt+s)"      id="saver"   ></div>
-      <div class="menu" style="top: 110px; text-align: center; cursor: pointer; background-image: url('icons/reset.png'); background-size: contain;"   onclick="reset()"      title="Reset the whole grid (alt+r)"                   ></div>
-      <div class="menu" style="top: 220px; text-align: center; cursor: pointer; background-image: url('icons/sample.png'); background-size: contain;"  onclick="sample(this)" title="Get a pixel's colour (alt+p)"      id="sampler" ></div>
-      <div class="menu" style="top: 330px; text-align: center; cursor: pointer; background-image: url('icons/eraser.png'); background-size: contain;"  onclick="erase(this)"  title="Set colour to blank (alt+e)"       id="eraser"  ></div>
-      <div class="menu" style="top: 440px; text-align: center; cursor: pointer; background-image: url('icons/fill.png'); background-size: contain;"    onclick="filler(this)" title="Fill in enclosed sections (alt+f)" id="filler"  ></div>
-      <div class="menu" style="top: 550px; text-align: center; cursor: pointer; background-image: url('icons/palette.png'); background-size: contain; border-width: 6px; width: 78px; height: 78px;" onclick="colourer(this)" title="Select a colour (alt+c)"   id="colourer"  ></div>
-      <div class="menu" style="top: 660px; text-align: center; cursor: pointer; background-image: url('icons/line.png'); background-size: contain;"    onclick="liner(this)" title="Draw a line (alt+l)" id="liner"  ></div>
+      <div class="menu" style="background-image: url('icons/save.png');"                                                  onclick="document.getElementById('pixelSizePopup').style.display='inline';" title="Convert to PNG image (alt+s)"      id="saver"   ></div>
+      <div class="menu" style="background-image: url('icons/reset.png');"                                                 onclick="reset()"                                                           title="Reset the whole grid (alt+r)"                   ></div>
+      <div class="menu" style="background-image: url('icons/sample.png');"                                                onclick="sample(this)"                                                      title="Get a pixel's colour (alt+p)"      id="sampler" ></div>
+      <div class="menu" style="background-image: url('icons/eraser.png');"                                                onclick="erase(this)"                                                       title="Set colour to blank (alt+e)"       id="eraser"  ></div>
+      <div class="menu" style="background-image: url('icons/fill.png');"                                                  onclick="filler(this)"                                                      title="Fill in enclosed sections (alt+f)" id="filler"  ></div>
+      <div class="menu" style="background-image: url('icons/palette.png'); border-width: 6px; width: 30px; height: 30px;" onclick="colourer(this)"                                                    title="Select a colour (alt+c)"           id="colourer"></div>
+      <div class="menu" style="background-image: url('icons/line.png');"                                                  onclick="liner(this)"                                                       title="Draw a line (alt+l)"               id="liner"   ></div>
 
     </div>
 
@@ -87,7 +87,7 @@
       <form onsubmit="start(); return false;">
         <div class="popupTitle">Set Height and Width</div>
         <div class="popupDescription">Please type in the height and width of the pixel grid you want to generate:</div>
-        <input type="number" class="popupInput" min="1" max="150" placeholder="width" id="startHight" /><br>
+        <input type="number" class="popupInput" min="1" max="150" placeholder="width" id="startHeight" /><br>
         <input type="number" class="popupInput" min="1" max="150" placeholder="height" id="startWidth" />
         <button class="popupConfirm">Confirm</button>
       </form>

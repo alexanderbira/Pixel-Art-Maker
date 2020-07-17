@@ -4,7 +4,7 @@ document.body.setAttribute('onmousedown', "mouseDown=true");
 document.body.setAttribute('onmouseleave', "mouseDown=false");
 document.body.setAttribute('onmouseup', "mouseDown=false");
 
-//tools   ----make an object for these to simplify
+//tools
 var selecting = false;
 var filling = false;
 var oldcol = 'black';
@@ -123,14 +123,14 @@ function getXY(element) {
 function makeGrid(width, height) {
   //scale to the most constricted element so that all the boxes fit on the page (set the line height accordingly)
   let a = window.innerHeight/height;
-  let b = (window.innerWidth-110)/width; //the 110 is the sidebar width
+  let b = (window.innerWidth-51)/width; //the 51 is the sidebar width
   let divSize = Math.min(a,b)-2;
   document.body.style.lineHeight = (Math.floor(divSize)+1).toString()+'px';
   
   //actually make and append the elements to the page
   for (let a=0; a<height; a++) {
     let newSpan = document.createElement('span');
-    newSpan.classList.add('rowSpan')
+    newSpan.classList.add('rowSpan'); //used for getting the spans
     document.body.appendChild(newSpan);
 
     for (let b=0; b<width; b++) {
@@ -320,7 +320,6 @@ function reset() {
 //when the popup is confirmed
 function start() {
   document.getElementById('sizePopup').style.display = 'none';
-  document.getElementById('saver').style.display = 'inline';
 
   settings = [document.getElementById('startHeight').value, document.getElementById('startWidth').value];
 
