@@ -4,7 +4,7 @@ document.body.setAttribute('onmousedown', "mouseDown=true");
 document.body.setAttribute('onmouseleave', "mouseDown=false");
 document.body.setAttribute('onmouseup', "mouseDown=false");
 
-//tools
+//tools   ----make an object for these to simplify
 var selecting = false;
 var filling = false;
 var oldcol = 'black';
@@ -82,8 +82,6 @@ function divClick(element) {
   if ((!selecting) && (!filling) && (!movingSetting) && (!lining)) {
     element.style.backgroundColor = colour;
     element.removeAttribute("onmouseleave"); //ensure the colour isn't reset by the hover event above
-
-    //!!!!!!!!!!!!   for some reson the pixel stays coloured then click dragged in lining mode - shouldn't !!!!!!!!!
 
   } else if (lining) {
     
