@@ -11,16 +11,6 @@
   float: left;
   user-select: none;
   cursor: url('../icons/cursor.cur') 8 8, auto;
-  text-align: center;
-}
-
-.pixel::before {
-  content: "•";
-  position: fixed;
-  z-index: -1;
-  font-size: 5px;
-  transform: translate(-0.5px, -0.25px);
-  color: gray;
 }
 
 body {
