@@ -12,6 +12,8 @@ var colourSelect = false;
 var lining = false;
 var movingSetting = false;
 
+var menuHidden = false;
+
 var colour = 'black';
 
 
@@ -433,6 +435,21 @@ function liner(button) {
   }
 }
 
+function toggleMenu(button) {
+  if (menuHidden) {
+    menuHidden = false;
+    document.getElementById('menuparent').classList.remove('menuUp');
+    button.classList.remove('buttonSpin1');
+    document.getElementById('menuparent').classList.add('menuDown');
+    button.classList.add('buttonSpin2');
+  } else {
+    menuHidden = true;
+    document.getElementById('menuparent').classList.remove('menuDown');
+    button.classList.remove('buttonSpin2');
+    document.getElementById('menuparent').classList.add('menuUp');
+    button.classList.add('buttonSpin1');
+  }
+}
 
 
 

@@ -42,6 +42,7 @@
       <div class="menu" style="background-image: url('icons/fill.png');"                                                  onclick="filler(this)"                                                      title="Fill in enclosed sections (alt+f)" id="filler"  ></div>
       <div class="menu" style="background-image: url('icons/palette.png'); border-width: 6px; width: 30px; height: 30px;" onclick="colourer(this)"                                                    title="Select a colour (alt+c)"           id="colourer"></div>
       <div class="menu" style="background-image: url('icons/line.png');"                                                  onclick="liner(this)"                                                       title="Draw a line (alt+l)"               id="liner"   ></div>
+      <div class="menu" style="background-image: url('icons/arrow.png');"                                                    onclick="toggleMenu(this)"                                                  title="Hide/show the menu"                id="hideMenu"   ></div>
 
     </div>
 
@@ -86,7 +87,7 @@
     <div id="sizePopup" class="popupContainer">
       <form onsubmit="start(); return false;">
         <div class="popupTitle">Set Width and Height</div>
-        <div class="popupDescription">Please type in the height and width of the pixel grid you want to generate:</div>
+        <div class="popupDescription">Please type in the width and height of the pixel grid you want to generate:</div>
         <input type="number" class="popupInput" min="1" max="150" placeholder="width" id="startWidth" /><br>
         <input type="number" class="popupInput" min="1" max="150" placeholder="height" id="startHeight" />
         <button class="popupConfirm">Confirm</button>
