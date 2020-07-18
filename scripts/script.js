@@ -318,7 +318,7 @@ function reset() {
 function start() {
   document.getElementById('sizePopup').style.display = 'none';
 
-  settings = [document.getElementById('startHeight').value, document.getElementById('startWidth').value];
+  settings = [document.getElementById('startWidth').value, document.getElementById('startHeight').value];
 
   makeGrid(settings[0],settings[1]);
 }
