@@ -9,5 +9,6 @@ function keyPressHandler(e) {
     if (e.code == "KeyF") filler(document.getElementById('filler')); //fill
     if (e.code == "KeyC") colourer(document.getElementById('colourer')); //colour
     if (e.code == "KeyL") liner(document.getElementById('liner')); //line
+    if (e.code == "KeyH") toggleMenu(document.getElementById('hideMenu')); //toggle menu
   }
 }
