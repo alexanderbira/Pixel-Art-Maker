@@ -13,6 +13,7 @@ var lining = false;
 var movingSetting = false;
 
 var menuHidden = false;
+var view = 0;
 
 var colour = 'black';
 
@@ -435,6 +436,7 @@ function liner(button) {
   }
 }
 
+//when the arrow button is clicked
 function toggleMenu(button) {
   if (menuHidden) {
     menuHidden = false;
@@ -451,7 +453,52 @@ function toggleMenu(button) {
   }
 }
 
+function toggleView() {
 
+  switch (view) {
+    case 0:
+      document.styleSheets[0].addRule('.pixel','border: none;');
+      document.body.style.lineHeight = (parseInt(document.body.style.lineHeight.replace(/px/,''))-1).toString()+'px';
+      
+      var spans = document.getElementsByClassName('rowSpan');
+      for (span of spans) {
+        span.lastChild.style.borderRight = 'none';
+      }
+      for (span of spans[spans.length-1].children) {
+        span.style.borderBottom = 'none';
+      }
+
+      view ++;
+      break;
+    
+    case 1:
+      document.styleSheets[0].addRule('.pixel:after','background: none;');
+      view ++;
+      break;
+      
+    case 2:
+      document.styleSheets[0].addRule('.pixel','border-left: solid gray 1px;');
+      document.styleSheets[0].addRule('.pixel','border-top: solid gray 1px;');
+      document.body.style.lineHeight = (parseInt(document.body.style.lineHeight.replace(/px/,''))+1).toString()+'px';
+
+      var spans = document.getElementsByClassName('rowSpan');
+      for (span of spans) {
+        span.lastChild.style.borderRight = 'solid gray 1px';
+      }
+      for (span of spans[spans.length-1].children) {
+        span.style.borderBottom = 'solid gray 1px';
+      }
+
+      view ++;
+      break;
+
+    case 3:
+      document.styleSheets[0].addRule('.pixel:after','background: url("../icons/dot.svg");');
+      view = 0;
+      break;
+  }
+
+}
 
 
 

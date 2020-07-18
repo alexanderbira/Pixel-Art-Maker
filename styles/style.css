@@ -11,6 +11,21 @@
   float: left;
   user-select: none;
   cursor: url('../icons/cursor.cur') 8 8, auto;
+
+  
+}
+
+.pixel:after {
+  content: "";
+  width: 10%;
+  height: 10%;
+  background: url("../icons/dot.svg");
+  background-repeat: no-repeat;
+  top: 45%;
+  right: -45%;
+  position: relative;
+  display: block;
+  z-index: -1;
 }
 
 
@@ -39,44 +54,44 @@ body {
   background-color: lightgray;
   left: 0;
   width: 40px;
-  height: 360px;
+  height: 405px;
   position: absolute;
   top: 0;
   padding: 4px 10px 4px 1px;
 }
 
 .menuUp {
-  animation: menuUp 1.5s linear forwards;
+  animation: menuUp 1s linear forwards;
 }
 
 .buttonSpin1 {
-  animation: buttonSpin1 1.5s linear forwards;
+  animation: buttonSpin1 1s linear forwards;
 }
 
 .menuDown {
-  animation: menuDown 1.5s linear forwards;
+  animation: menuDown 1s linear forwards;
 }
 
 .buttonSpin2 {
-  animation: buttonSpin2 1.5s linear forwards;
+  animation: buttonSpin2 1s linear forwards;
 }
 
 @keyframes menuUp {
   0% {transform: none}
-  100% {transform: translateY(-319px)}
+  100% {transform: translateY(-364px)}
 }
 
 @keyframes buttonSpin1 {
   0% {transform: rotate(0deg)}
-  100% {transform: rotate(180deg)}
+  100% {transform: rotate(540deg)}
 }
 
 @keyframes menuDown {
-  0% {transform: translateY(-319px)}
+  0% {transform: translateY(-364px)}
   100% {transform: translateY(0px)}
 }
 
 @keyframes buttonSpin2 {
-  0% {transform: rotate(180deg)}
-  100% {transform: rotate(360deg)}
+  0% {transform: rotate(540deg)}
+  100% {transform: rotate(1080deg)}
 }

@@ -110,8 +110,9 @@
 }
 
 #coloursheader {
-  cursor: move !important;
+  cursor: move;
   text-align: center;
   background: rgb(224, 225, 255);
   border-bottom: solid black 1px;
+  border-radius: 3px 3px 0 0;
 }
