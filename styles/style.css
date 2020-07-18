@@ -2,6 +2,8 @@
 @import "colourerStyle.css";
 @import "popup.css";
 
+
+
 .pixel {
   border-left: solid gray 1px;
   border-top: solid gray 1px;
@@ -9,6 +11,16 @@
   float: left;
   user-select: none;
   cursor: url('../icons/cursor.cur') 8 8, auto;
+  text-align: center;
+}
+
+.pixel::before {
+  content: "•";
+  position: fixed;
+  z-index: -1;
+  font-size: 5px;
+  transform: translate(-0.5px, -0.25px);
+  color: gray;
 }
 
 body {
@@ -29,6 +41,7 @@ body {
   text-align: center;
   cursor: pointer;
   background-size: contain;
+  background-repeat: no-repeat;
 }
 
 #menuparent {

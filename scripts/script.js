@@ -55,7 +55,7 @@ function makeImage(width, height, multiplier, data) {
 
 //function is run when a pixel is hovered
 function divHover(element) {
-  if ((!selecting) && (!movingSetting) && (!filling) && (!lining)) {
+  if (selecting+movingSetting+filling+lining === 0) { //if none of them are true
     let currentBackground = element.style.backgroundColor;
     if (!mouseDown) {
       element.setAttribute("onmouseleave", "this.style.backgroundColor='"+currentBackground+"';this.removeAttribute('onmouseleave')"); //if the mouse is not down, make it lose the colour when hovered out, and also delete the hover out event
@@ -126,30 +126,28 @@ function makeGrid(width, height) {
   let b = (window.innerWidth-51)/width; //the 51 is the sidebar width
   let divSize = Math.min(a,b)-2;
   document.body.style.lineHeight = (Math.floor(divSize)+1).toString()+'px';
+
+  let divSizeFinal = Math.floor(divSize).toString()+'px';
   
   //actually make and append the elements to the page
   for (let a=0; a<height; a++) {
     let newSpan = document.createElement('span');
+
     newSpan.classList.add('rowSpan'); //used for getting the spans
-    document.body.appendChild(newSpan);
 
     for (let b=0; b<width; b++) {
 
       let newDiv = document.createElement('div');
 
-      newDiv.style.height = newDiv.style.width = Math.floor(divSize).toString()+'px';
+      newDiv.style.height = newDiv.style.width = divSizeFinal;
 
       newDiv.setAttribute("onclick","divClick(this)");
       newDiv.setAttribute("onmouseenter","divHover(this)");
       newDiv.setAttribute("onmousedown","if(!lining){divHover(this)}");
       
       //make divs on the right and bottom have a border
-      if (b-width == -1) {
-        newDiv.style.borderRight = "solid gray 1px";
-      }
-      if (a-height == -1) {
-        newDiv.style.borderBottom = "solid gray 1px";
-      }
+      if (b-width === -1)  newDiv.style.borderRight  = "solid gray 1px";
+      if (a-height === -1) newDiv.style.borderBottom = "solid gray 1px";
 
       newDiv.classList.add('pixel'); //pixel class has extra formatting (see style.css)
 
@@ -157,7 +155,7 @@ function makeGrid(width, height) {
       newSpan.appendChild(newDiv);
 
     }
-
+    document.body.appendChild(newSpan);
     document.body.innerHTML += '<br>';
   }
   document.body.innerHTML += '<br>';
@@ -166,7 +164,6 @@ function makeGrid(width, height) {
   let currentColour = getColour();
   currentColour = currentColour.concat(rgbToHsl(currentColour[0], currentColour[1], currentColour[2]));
   updateSliders(currentColour);
-
 }
 
 //input:element
