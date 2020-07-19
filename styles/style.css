@@ -83,7 +83,7 @@ body {
 
 @keyframes buttonSpin1 {
   0% {transform: rotate(0deg)}
-  100% {transform: rotate(540deg)}
+  100% {transform: rotate(180deg)}
 }
 
 @keyframes menuDown {
@@ -92,6 +92,6 @@ body {
 }
 
 @keyframes buttonSpin2 {
-  0% {transform: rotate(540deg)}
-  100% {transform: rotate(1080deg)}
+  0% {transform: rotate(180deg)}
+  100% {transform: rotate(360deg)}
 }
