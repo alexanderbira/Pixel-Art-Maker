@@ -16,7 +16,7 @@
 # Features
 <ul>
   <li>Choose colour with native picker, CSS code, or RGBAHSL sliders / input boxes</li>
-  <li>Make custom-sized grid from 1x1 up to 150x150</li>
+  <li>Make custom-sized grid - any rectangle from 1x1 up to 100x100</li>
   <li>Grid always scaled to fit on screen, ensuring each square is as big as possible while being visible</li>
   <li>Export as PNG image, with alpha channel support</li>
   <li>Choose how much to scale one grid square into a pixel - you can make a 2x2 grid become a 2x2 - 100x100 image</li>
