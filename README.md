@@ -10,6 +10,8 @@
   <li>Pick colour - <kbd>alt+c</kbd></li>
   <li>Draw line - <kbd>alt+l</kbd></li>
   <li>Change view - <kbd>alt+v</kbd></li>
+  <li>Undo last action - <kbd>alt+z</kbd></li>
+  <li>Redo last action - <kbd>alt+shift+z</kbd></li>
   <li>Toggle menu - <kbd>alt+h</kbd></li>
 </ul>
 
@@ -27,6 +29,7 @@
   <li>Dots behind each grid square to show opacity</li>
   <li>Choose between view options of grid and dots, no grid and dots, no dots and grid, or no dots and no grid</li>
   <li>Hide the menu to draw without distractions</li>
+  <li>Undo all your mistakes with the undo tool, and re-do unnecessary undos</li>
  </ul>
  
 # How to use
