@@ -11,5 +11,13 @@ function keyPressHandler(e) {
     if (e.code == "KeyL") liner(document.getElementById('liner')); //line
     if (e.code == "KeyH") toggleMenu(document.getElementById('hideMenu')); //toggle menu
     if (e.code == "KeyV") toggleView(); //toggle view
+
+    if (e.code == "KeyZ") {
+      if (e.shiftKey) {
+        redo(); //redo
+      } else {
+        undo(); //undo
+      }
+    }
   }
 }

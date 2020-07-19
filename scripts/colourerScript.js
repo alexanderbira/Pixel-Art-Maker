@@ -1,7 +1,9 @@
 //called when colour is changed
 function changeColour(col) {
 
-  colour =  col;
+  document.getElementById('eraser').style.backgroundColor = '';
+
+  colour = col;
   oldcol = col;
 
   document.getElementById('colourer').style.borderColor = col;

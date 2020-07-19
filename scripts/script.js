@@ -1,21 +1,28 @@
 //keeps track of whether to apply change when hovering over a pixel widthout a click if the mouse is already down
 var mouseDown = false;
-document.body.setAttribute('onmousedown', "mouseDown=true");
+document.body.setAttribute('onmousedown', "mouseDown=true; hoverFilledList=[colour]");
 document.body.setAttribute('onmouseleave', "mouseDown=false");
-document.body.setAttribute('onmouseup', "mouseDown=false");
+document.body.setAttribute('onmouseup', 
+"mouseDown=false; if(hoverFilledList.length>1){if(prevmode){trimActionList()}actions.push(hoverFilledList);actionCounter++}");
 
 //tools
-var selecting = false;
-var filling = false;
-var oldcol = 'black';
-var colourSelect = false;
-var lining = false;
-var movingSetting = false;
+var selecting = false; //if sampling mode is on
+var filling = false; //if filling mode is on
+var oldcol = 'black'; //the colour to revert to when the eraser is re-enabled
+var lining = false; //if the line mode is on
+var movingSetting = false; //if the colour menu is currently being moved
 
-var menuHidden = false;
-var view = 0;
+var menuHidden = false; //keeps track of if the menu if up or down
+var view = 0; //keeps track of what view mode (grids and dots) the page is on
 
-var colour = 'black';
+var actions = []; //for the un/re do tool
+var actionCounter = 0; 
+var prevmode = false; //if you're back in time
+
+var hoverFilledList = []; //to append whne click and hold brush is used (to actions)
+var hoveredCurrentBackground = '';
+
+var colour = 'black'; //brush colour
 
 
 //returns the formatted image url in b64
@@ -57,12 +64,22 @@ function makeImage(width, height, multiplier, data) {
 }
 
 //function is run when a pixel is hovered
-function divHover(element) {
-  if (selecting+movingSetting+filling+lining === 0) { //if none of them are true
+function divHover(element, fromClick) { //remember this funtion is also called onmousedown
+  if (selecting+movingSetting+filling+lining === 0) { //if none of them are true - basically brush mode
+
     let currentBackground = element.style.backgroundColor;
+    
+    if (fromClick !== undefined) {
+      (hoveredCurrentBackground=>{setTimeout(()=>hoverFilledList.push([element, hoveredCurrentBackground]),1)})(hoveredCurrentBackground); //timeout so not reset by document mousedown event
+    }
+
+    hoveredCurrentBackground = element.style.backgroundColor; //needs to be global so that when clicked undo function can know what the last colour was
+
     if (!mouseDown) {
       element.setAttribute("onmouseleave", "this.style.backgroundColor='"+currentBackground+"';this.removeAttribute('onmouseleave')"); //if the mouse is not down, make it lose the colour when hovered out, and also delete the hover out event
-    } 
+    } else {
+      hoverFilledList.push([element, element.style.backgroundColor]);
+    }
     element.style.backgroundColor = colour;
 
   } else if (lining) { //create line
@@ -76,23 +93,23 @@ function divHover(element) {
       element.setAttribute("onmouseout", "this.style.backgroundColor='"+currentBackground+"';this.removeAttribute('onmouseout');");
       element.style.backgroundColor = colour;
     }
-
   }
 }
 
 //function is run when a pixel is clicked
 function divClick(element) {
-  if ((!selecting) && (!filling) && (!movingSetting) && (!lining)) {
-    element.style.backgroundColor = colour;
-    element.removeAttribute("onmouseleave"); //ensure the colour isn't reset by the hover event above
-
-  } else if (lining) {
+  if (lining) {
     
     if (firstPoint === undefined) {
       firstPoint = getXY(element);
     } else {
       let secondPoint = getXY(element);
       line(firstPoint[0], firstPoint[1], secondPoint[0], secondPoint[1]);
+      if (prevmode) {
+        trimActionList();
+      }
+      actions.push(newlyLined);
+      actionCounter++;
       firstPoint = undefined;
       newlyLined = [];
     }
@@ -146,7 +163,7 @@ function makeGrid(width, height) {
 
       newDiv.setAttribute("onclick","divClick(this)");
       newDiv.setAttribute("onmouseenter","divHover(this)");
-      newDiv.setAttribute("onmousedown","if(!lining){divHover(this)}");
+      newDiv.setAttribute("onmousedown","if(!lining){divHover(this, true)}");
       
       //make divs on the right and bottom have a border
       if (b-width === -1)  newDiv.style.borderRight  = "solid gray 1px";
@@ -234,6 +251,8 @@ function fill(div) {
   let afterColour = getDivColour(elements[x][y]).join('');
 
   let toFillList = [[elements[x][y], x, y]];
+  let filledList = [colour]; //used to append to actions for undo
+
   //debugger; //uncomment to see beautiful fill
 
   //fill algorithm
@@ -244,23 +263,33 @@ function fill(div) {
       let y = div[2];
   
       if ((x < maxX) && (getDivColour(elements[x+1][y]).join('')==initialColour)) {
+        filledList.push([elements[x+1][y], elements[x+1][y].style.backgroundColor]);
         elements[x+1][y].style.backgroundColor = colour;
         toFillList.push([elements[x+1][y], x+1, y]);
       }
       if ((x > 0) && (getDivColour(elements[x-1][y]).join('')==initialColour)) {
+        filledList.push([elements[x-1][y], elements[x-1][y].style.backgroundColor]);
         elements[x-1][y].style.backgroundColor = colour;
         toFillList.push([elements[x-1][y], x-1, y]);
       }
       if ((y < maxY) && (getDivColour(elements[x][y+1]).join('')==initialColour)) {
+        filledList.push([elements[x][y+1], elements[x][y+1].style.backgroundColor]);
         elements[x][y+1].style.backgroundColor = colour;
         toFillList.push([elements[x][y+1], x, y+1]);
       }
       if ((y > 0) && (getDivColour(elements[x][y-1]).join('')==initialColour)) {
+        filledList.push([elements[x][y-1], elements[x][y-1].style.backgroundColor]);
         elements[x][y-1].style.backgroundColor = colour;
         toFillList.push([elements[x][y-1], x, y-1]);
       }
     }
+    if (prevmode) {
+      trimActionList();
+    }
+    actions.push(filledList);
+    actionCounter++;
   }
+
   
   
 }
@@ -272,13 +301,13 @@ function line(x0, y0, x1, y1) {
   var sy = (y0 < y1) ? 1 : -1;
   var err = dx - dy;
 
-  
+  newlyLined.splice(0,1);
 
   for (element of newlyLined) {
     element[0].style.backgroundColor = element[1];
   }
 
-  newlyLined = [];
+  newlyLined = [colour];
 
   while(true) {
     let element = matrixForLiner[y0][x0];
@@ -293,13 +322,17 @@ function line(x0, y0, x1, y1) {
 }
 
 
+function trimActionList() {
+  while (actions.length > actionCounter) {
+    actions.pop();
+  }
+}
 
 
 
 
 
-
-//-------------tools-------------
+//-------------tools-------------\\
 
 
 
@@ -312,9 +345,21 @@ function getImage() {
 
 //when the reset button is clicked
 function reset() {
-  for (div of document.getElementsByClassName('pixel')) {
-    div.style.backgroundColor = '';
+
+  let filledList = [colour]; //to add to undo actions list
+
+  if (confirm('Are you sure you want to reset all pixels?')) {
+    for (div of document.getElementsByClassName('pixel')) {
+      filledList.push([div, div.style.backgroundColor]);
+      div.style.backgroundColor = '';
+    }
   }
+
+  if (prevmode) {
+    trimActionList();
+  }
+  actions.push(filledList);
+  actionCounter++;
 }
 
 //when the popup is confirmed
@@ -390,15 +435,13 @@ function filler(button) {
   }
 }
 
-//when the filler button is clicked
+//when the colour button is clicked
 function colourer(button) {
   if (button.style.backgroundColor == 'white') {
-    colourSelect = false;
     button.style.backgroundColor = '';
     button.style.borderColor = colour;
     document.getElementById('colours').style.display = 'none';
   } else {
-    colourSelect = true;
     button.style.backgroundColor = 'white';
     document.getElementById('colours').style.display = 'block';
   }
@@ -500,6 +543,42 @@ function toggleView() {
 
 }
 
+function undo() {
+  prevmode = true;
+
+  if (actionCounter > 0) {
+    actionCounter --;
+  }
+
+  let changedElements = [];
+
+  let currentActions = actions[actionCounter].slice(1,actions[actionCounter].length);
+
+  for (action of currentActions) {
+    if (!changedElements.includes(action[0])) {
+      action[0].style.background = action[1];
+      changedElements.push(action[0]);
+    }
+  }
+}
+
+function redo() {
+
+  if (actionCounter < actions.length) {
+    actionCounter ++;
+  }
+  if (actionCounter === actions.length-1) {
+    prevmode = false;
+  }
+
+  let previousColour = actions[actionCounter-1][0];
+
+  let currentActions = actions[actionCounter-1].slice(1,actions[actionCounter-1].length);
+
+  for (action of currentActions) {
+    action[0].style.background = previousColour;
+  }
+}
 
 
 
@@ -515,12 +594,10 @@ window.onbeforeunload = function (e) {
 }
 
 
-
-
 /*
 
 tools to add:
 
-duplicate area
+duplicate area - i can't even tho uwu
 
 */
