@@ -15,7 +15,7 @@
 
 # Features
 <ul>
-  <li>Choose colour with native picker, CSS code, or RGBAHSL sliders</li>
+  <li>Choose colour with native picker, CSS code, or RGBAHSL sliders / input boxes</li>
   <li>Make custom-sized grid from 1x1 up to 150x150</li>
   <li>Grid always scaled to fit on screen, ensuring each square is as big as possible while being visible</li>
   <li>Export as PNG image, with alpha channel support</li>
