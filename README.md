@@ -2,18 +2,21 @@
 <p>This website allows you to make nice pixel art and export it as a PNG.</p>
 <h1>Tools & Shortcuts</h1>
 <ul>
+  <li>Save as png - <kbd>alt+s</kbd></li>
   <li>Reset grid - <kbd>alt+r</kbd></li>
   <li>Sample colour - <kbd>alt+p</kbd></li>
   <li>Eraser - <kbd>alt+e</kbd></li>
   <li>Fill area - <kbd>alt+f</kbd></li>
   <li>Pick colour - <kbd>alt+c</kbd></li>
   <li>Draw line - <kbd>alt+l</kbd></li>
+  <li>Change view - <kbd>alt+v</kbd></li>
+  <li>Toggle menu - <kbd>alt+h</kbd></li>
 </ul>
 
 # Features
 <ul>
-  <li>Choose colour with native picker, CSS code, or RGBAHSL sliders</li>
-  <li>Make custom-sized grid from 1x1 up to 150x150</li>
+  <li>Choose colour with native picker, CSS code, or RGBAHSL sliders / input boxes</li>
+  <li>Make custom-sized grid - any rectangle from 1x1 up to 100x100</li>
   <li>Grid always scaled to fit on screen, ensuring each square is as big as possible while being visible</li>
   <li>Export as PNG image, with alpha channel support</li>
   <li>Choose how much to scale one grid square into a pixel - you can make a 2x2 grid become a 2x2 - 100x100 image</li>
@@ -21,6 +24,9 @@
   <li>Create new colours and have multiple at a time to choose between. You can delete these, and they are save accross sessions</li>
   <li>Colour menu can be dragged and relocated across page</li>
   <li>Use the line tool and click on one point, then hover elsewhere to see a preview, and click to apply</li>
+  <li>Dots behind each grid square to show opacity</li>
+  <li>Choose between view options of grid and dots, no grid and dots, no dots and grid, or no dots and no grid</li>
+  <li>Hide the menu to draw without distractions</li>
  </ul>
  
 # How to use
