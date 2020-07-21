@@ -45,25 +45,23 @@ Draws a line between the two points that you click, and shows you a preview of t
 
 ## Change view
 Switch between the different view modes. There's:<br>
-<ul>
- <li>Grid and background dots</li>
- <li>Grid and no background dots</li>
- <li>No grid and background dots</li>
- <li>No grid and no background dots</li>
-</ul>
-The default is grid and background dots. The grid shows you the border of the square, and the background dot goes behing the pixel colour, allowing you to see if the pixel is transparent/translucent. 
+* Grid and background dots
+* Grid and no background dots
+* No grid and background dots
+* No grid and no background dots
+
+The default is grid and background dots. The grid shows you the border of the square, and the background dot goes behing the pixel colour, allowing you to see if the pixel is transparent/translucent.<br>
 <kbd>alt+v</kbd><br>
 ![view icon](icons/eye.png?raw=true)
 
 ## Undo last action
 Undoes your last move. A move is any of the following:<br>
-<ul>
- <li>Grid reset</li>
- <li>Fill area</li>
- <li>Draw line</li>
- <li>Click pixel (including eraser)</li>
- <li>Mousedown drag (including eraser)</li>
-</ul>
+* Grid reset
+* Fill area
+* Draw line
+* Click pixel (including eraser)
+* Mousedown drag (including eraser)
+
 <kbd>alt+z</kbd><br>
 ![undo icon](icons/undo.png?raw=true)
 
