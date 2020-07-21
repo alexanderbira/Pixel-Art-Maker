@@ -28,10 +28,10 @@ function moveColour(event) {
   let newTop = (currentTop - yChange);
   let newLeft = (currentLeft - xChange);
 
-  if (newLeft < 105) {
-    newLeft = 105;
-  } else if (newLeft > window.innerWidth-261) {
-    newLeft = window.innerWidth-261;
+  if (newLeft < 55) {
+    newLeft = 55;
+  } else if (newLeft > window.innerWidth-270) {
+    newLeft = window.innerWidth-270;
   }
 
   if (newTop < 5) {

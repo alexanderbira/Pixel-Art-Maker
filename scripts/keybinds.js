@@ -22,7 +22,8 @@ function keyPressHandler(e) {
         if (e.shiftKey) redo(); //redo
         else undo(); //undo
         break;
-      case "KeyD": exportAsFile(); //export project
+      case "KeyD": exportAsFile(); break; //download project
+      case "Space": pen(document.getElementById('pen')); break; //pen
     } 
   }
 }

@@ -377,9 +377,26 @@ function start() {
   makeGrid(settings[0],settings[1]);
 }
 
+function pen(button) {
+  button.style.backgroundColor = 'white';
+
+  document.getElementById('sampler').style.backgroundColor = '';
+  selecting = false;
+
+  document.getElementById('eraser').style.backgroundColor = '';
+  colour = oldcol;
+
+  document.getElementById('filler').style.backgroundColor = '';
+  filling = false;
+
+  document.getElementById('liner').style.backgroundColor = '';
+  lining = false;
+}
+
 //when the sampler button is clicked
 function sample(button) {
   document.getElementById('eraser').style.backgroundColor = '';
+  colour = oldcol;
 
   document.getElementById('filler').style.backgroundColor = '';
   filling = false;
@@ -387,10 +404,13 @@ function sample(button) {
   document.getElementById('liner').style.backgroundColor = '';
   lining = false;
 
+  document.getElementById('pen').style.backgroundColor = '';
+
 
   if (button.style.backgroundColor == 'white') {
     selecting = false;
     button.style.backgroundColor = '';
+    document.getElementById('pen').style.backgroundColor = 'white';
   } else {
     colour = oldcol;
     selecting = true;
@@ -409,10 +429,13 @@ function erase(button) {
   document.getElementById('liner').style.backgroundColor = '';
   lining = false;
 
+  document.getElementById('pen').style.backgroundColor = '';
+
 
   if (button.style.backgroundColor == 'white') {
     colour = oldcol;
     button.style.backgroundColor = '';
+    document.getElementById('pen').style.backgroundColor = 'white';
   } else {
     oldcol = colour;
     colour = '';
@@ -431,10 +454,13 @@ function filler(button) {
   document.getElementById('liner').style.backgroundColor = '';
   lining = false;
 
+  document.getElementById('pen').style.backgroundColor = '';
+
 
   if (button.style.backgroundColor == 'white') {
     filling = false;
     button.style.backgroundColor = '';
+    document.getElementById('pen').style.backgroundColor = 'white';
   } else {
     filling = true;
     button.style.backgroundColor = 'white';
@@ -464,10 +490,13 @@ function liner(button) {
   document.getElementById('filler').style.backgroundColor = '';
   filling = false;
 
+  document.getElementById('pen').style.backgroundColor = '';
+
   if (button.style.backgroundColor == 'white') {
     lining = false;
     button.style.backgroundColor = '';
     newlyLined = null;
+    document.getElementById('pen').style.backgroundColor = 'white';
 
   } else {
     lining = true;
