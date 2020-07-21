@@ -1,7 +1,13 @@
 # Pixel-Art-Maker
-This website allows you to make nice pixel art and export it as a PNG.
+This website allows you to make pixel art and export it as a PNG.
 
-# Tools & Shortcuts
+# Sections
+* [Tools](#tools)
+* [Features](#features)
+* [Usage](#usage)
+* [Screenshots](#screenshots)
+
+# Tools
 
 ## Save as png
 Open a popup where you type in a final image size, and then the image appears as a PNG at the bottom of the page.<br>
@@ -99,7 +105,7 @@ Hides the sidebar with all the tools except for itself. Can be re-clicked to rev
   <li>Upload a .pxart file to continue editing it</li>
  </ul>
  
-# How to use
+# Usage
 <ol>
   <li>Input the grid width and height in the popup</li>
   <li>Use the colour selector to change your brush colour</li>
@@ -110,3 +116,42 @@ Hides the sidebar with all the tools except for itself. Can be re-clicked to rev
   <li>Fill in the pixel scaler popup</li>
   <li>Scroll down and your image is there. You can copy it or save it with a right click</li>
 </ol>
+
+# Screenshots
+![1](screenshots/1.png?raw=true)
+
+---
+
+![2](screenshots/2.png?raw=true)
+
+---
+
+![3](screenshots/3.png?raw=true)
+
+---
+
+![4](screenshots/4.png?raw=true)
+
+---
+
+![5](screenshots/5.png?raw=true)
+
+---
+
+![6](screenshots/6.png?raw=true)
+
+---
+
+![7](screenshots/7.png?raw=true)
+
+---
+
+![8](screenshots/8.png?raw=true)
+
+---
+
+![9](screenshots/9.png?raw=true)
+
+---
+
+![10](screenshots/10.png?raw=true)
