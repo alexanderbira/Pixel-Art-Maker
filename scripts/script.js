@@ -583,9 +583,9 @@ function undo() {
   let currentActions = actions[actionCounter].slice(1,actions[actionCounter].length);
 
   for (action of currentActions) {
-    if (!changedElements.includes(action[0])) {
+    if (!changedElements.includes(action[0].toString())) {
       elementsMatrix[action[0][0]][action[0][1]].style.background = action[1];
-      changedElements.push(action[0]);
+      changedElements.push(action[0].toString());
     }
   }
 }

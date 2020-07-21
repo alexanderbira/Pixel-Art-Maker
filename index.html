@@ -11,9 +11,6 @@
 
   <body>
 
-    <a href="help.html" style="top: 0; right: 0;position: absolute;">help</a>
-
-
     <div id="loadingScreen">
       <div class="loadingText"><b>Loading...</b></div>
       <div class="loadingSegment" style="transform: rotate(0deg) translate(0px,-100px); animation-delay: 0.1s"></div>
@@ -37,6 +34,7 @@
 
     <div id="menuparent">
     
+      <div class="menu" style="height: 20px; color: black; width: 40px;"                                                                                                                            title="Go to the help page"              ><a href="help.html">?</a></div>
       <div class="menu" style="background-image: url('icons/save.png');"                                                  onclick="document.getElementById('pixelSizePopup').style.display='inline';" title="Convert to PNG image (alt+s)"                id="saver"    ></div>
       <div class="menu" style="background-image: url('icons/reset.png');"                                                 onclick="reset()"                                                           title="Reset the whole grid (alt+r)"                              ></div>
       <div class="menu" style="background-image: url('icons/pen.png'); background-color: white;"                        onclick="pen(this)"                                                         title="Draw with click/click and drag (alt+space)"  id="pen"      ></div>
