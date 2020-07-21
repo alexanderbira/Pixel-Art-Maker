@@ -307,23 +307,6 @@ function trimActionList() {
   }
 }
 
-
-function exportAsFile(filename, text) {
-  var pom = document.createElement('a');
-  pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(`${settings[0]},${settings[1]}/`+getImageData()));
-  
-
-  pom.setAttribute('download', new Date().toISOString().split('T')[0]+'.pxart');
-
-  if (document.createEvent) {
-    var event = document.createEvent('MouseEvents');
-    event.initEvent('click', true, true);
-    pom.dispatchEvent(event);
-  } else {
-    pom.click();
-  };
-};
-
 function handleFileSelect(event) {
   const reader = new FileReader()
   reader.onload = (event)=>useFileData(event.target.result);
@@ -352,6 +335,8 @@ function useFileData(data) {
     } 
   }
 }
+
+
 
 //-------------tools-------------\\
 
@@ -594,6 +579,21 @@ function redo() {
   }
 }
 
+function exportAsFile() {
+  var pom = document.createElement('a');
+  pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(`${settings[0]},${settings[1]}/`+getImageData()));
+  
+
+  pom.setAttribute('download', new Date().toISOString().split('T')[0]+'.pxart');
+
+  if (document.createEvent) {
+    var event = document.createEvent('MouseEvents');
+    event.initEvent('click', true, true);
+    pom.dispatchEvent(event);
+  } else {
+    pom.click();
+  };
+};
 
 
 //confirm before leaving page
