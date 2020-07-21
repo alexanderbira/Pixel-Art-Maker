@@ -12,6 +12,7 @@
   <li>Change view - <kbd>alt+v</kbd></li>
   <li>Undo last action - <kbd>alt+z</kbd></li>
   <li>Redo last action - <kbd>alt+shift+z</kbd></li>
+  <li>Download file for later editing - <kbd>alt+d</kbd></li>
   <li>Toggle menu - <kbd>alt+h</kbd></li>
 </ul>
 
@@ -30,6 +31,8 @@
   <li>Choose between view options of grid and dots, no grid and dots, no dots and grid, or no dots and no grid</li>
   <li>Hide the menu to draw without distractions</li>
   <li>Undo all your mistakes with the undo tool, and re-do unnecessary undos</li>
+  <li>Download your project as a .pxart file</li>
+  <li>Upload a .pxart file to continue editing it</li>
  </ul>
  
 # How to use
