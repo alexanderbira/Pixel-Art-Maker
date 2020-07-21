@@ -52,7 +52,7 @@ body {
   background-color: lightgray;
   left: 0;
   width: 40px;
-  height: 495px;
+  height: 540px;
   position: absolute;
   top: 0;
   padding: 4px 10px 4px 1px;
@@ -76,7 +76,7 @@ body {
 
 @keyframes menuUp {
   0% {transform: none}
-  100% {transform: translateY(-454px)}
+  100% {transform: translateY(-499px)}
 }
 
 @keyframes buttonSpin1 {
@@ -85,7 +85,7 @@ body {
 }
 
 @keyframes menuDown {
-  0% {transform: translateY(-454px)}
+  0% {transform: translateY(-499px)}
   100% {transform: translateY(0px)}
 }
 

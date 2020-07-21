@@ -35,17 +35,19 @@
 
     <div id="menuparent">
     
-      <div class="menu" style="background-image: url('icons/save.png');"                                                  onclick="document.getElementById('pixelSizePopup').style.display='inline';" title="Convert to PNG image (alt+s)"      id="saver"    ></div>
-      <div class="menu" style="background-image: url('icons/reset.png');"                                                 onclick="reset()"                                                           title="Reset the whole grid (alt+r)"                    ></div>
-      <div class="menu" style="background-image: url('icons/sample.png');"                                                onclick="sample(this)"                                                      title="Get a pixel's colour (alt+p)"      id="sampler"  ></div>
-      <div class="menu" style="background-image: url('icons/eraser.png');"                                                onclick="erase(this)"                                                       title="Set colour to blank (alt+e)"       id="eraser"   ></div>
-      <div class="menu" style="background-image: url('icons/fill.png');"                                                  onclick="filler(this)"                                                      title="Fill in enclosed sections (alt+f)" id="filler"   ></div>
-      <div class="menu" style="background-image: url('icons/palette.png'); border-width: 6px; width: 30px; height: 30px;" onclick="colourer(this)"                                                    title="Select a colour (alt+c)"           id="colourer" ></div>
-      <div class="menu" style="background-image: url('icons/line.png');"                                                  onclick="liner(this)"                                                       title="Draw a line (alt+l)"               id="liner"    ></div>
-      <div class="menu" style="background-image: url('icons/eye.png');"                                                   onclick="toggleView()"                                                      title="Change the view (alt+v)"                         ></div>
-      <div class="menu" style="background-image: url('icons/undo.png');"                                                  onclick="undo()"                                                            title="Undo last action (alt+z)"                        ></div>
-      <div class="menu" style="background-image: url('icons/redo.png');"                                                  onclick="redo()"                                                            title="Redo last action (alt+shift+z)"                  ></div>
-      <div class="menu" style="background-image: url('icons/arrow.png');"                                                 onclick="toggleMenu(this)"                                                  title="Hide/show the menu (alt+h)"        id="hideMenu" ></div>
+      <div class="menu" style="background-image: url('icons/save.png');"                                                  onclick="document.getElementById('pixelSizePopup').style.display='inline';" title="Convert to PNG image (alt+s)"                id="saver"    ></div>
+      <div class="menu" style="background-image: url('icons/reset.png');"                                                 onclick="reset()"                                                           title="Reset the whole grid (alt+r)"                              ></div>
+      <div class="menu" style="background-image: url('icons/sample.png');"                                                onclick="sample(this)"                                                      title="Get a pixel's colour (alt+p)"                id="sampler"  ></div>
+      <div class="menu" style="background-image: url('icons/eraser.png');"                                                onclick="erase(this)"                                                       title="Set colour to blank (alt+e)"                 id="eraser"   ></div>
+      <div class="menu" style="background-image: url('icons/fill.png');"                                                  onclick="filler(this)"                                                      title="Fill in enclosed sections (alt+f)"           id="filler"   ></div>
+      <div class="menu" style="background-image: url('icons/palette.png'); border-width: 6px; width: 30px; height: 30px;" onclick="colourer(this)"                                                    title="Select a colour (alt+c)"                     id="colourer" ></div>
+      <div class="menu" style="background-image: url('icons/line.png');"                                                  onclick="liner(this)"                                                       title="Draw a line (alt+l)"                         id="liner"    ></div>
+      <div class="menu" style="background-image: url('icons/eye.png');"                                                   onclick="toggleView()"                                                      title="Change the view (alt+v)"                                   ></div>
+      <div class="menu" style="background-image: url('icons/undo.png');"                                                  onclick="undo()"                                                            title="Undo last action (alt+z)"                                  ></div>
+      <div class="menu" style="background-image: url('icons/redo.png');"                                                  onclick="redo()"                                                            title="Redo last action (alt+shift+z)"                            ></div>
+      <div class="menu" style="background-image: url('icons/download.png');"                                              onclick="exportAsFile()"                                                    title="Download your project to edit later (alt+d)"               ></div>
+      <div class="menu" style="background-image: url('icons/arrow.png');"                                                 onclick="toggleMenu(this)"                                                  title="Hide/show the menu (alt+h)"                  id="hideMenu" ></div>
+
       
 
     </div>
@@ -96,6 +98,9 @@
         <input type="number" class="popupInput" min="1" max="100" placeholder="height" id="startHeight" />
         <button class="popupConfirm">Confirm</button>
       </form>
+
+      <input type="file" id="uploader" style="display: none;" onchange="handleFileSelect(event)" autocomplete="off" accept=".pxart" />
+      <button onclick="document.getElementById('uploader').click();" class="popupConfirm" style="margin-top: 15px;">Or upload a save file</button>
     </div>
 
 

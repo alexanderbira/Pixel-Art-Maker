@@ -308,8 +308,50 @@ function trimActionList() {
 }
 
 
+function exportAsFile(filename, text) {
+  var pom = document.createElement('a');
+  pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(`${settings[0]},${settings[1]}/`+getImageData()));
+  
 
+  pom.setAttribute('download', new Date().toISOString().split('T')[0]+'.pxart');
 
+  if (document.createEvent) {
+    var event = document.createEvent('MouseEvents');
+    event.initEvent('click', true, true);
+    pom.dispatchEvent(event);
+  } else {
+    pom.click();
+  };
+};
+
+function handleFileSelect(event) {
+  const reader = new FileReader()
+  reader.onload = (event)=>useFileData(event.target.result);
+  reader.readAsText(event.target.files[0])
+}
+
+function useFileData(data) {
+  data = data.split('/');
+
+  let metaData = data[0].split(',');
+  document.getElementById('startWidth').value = metaData[0];
+  document.getElementById('startHeight').value = metaData[1];
+  start();
+
+  let gridData = data[1].split(',');
+
+  let spans = document.getElementsByClassName('rowSpan');
+
+  let counter = 0;
+  for (span of spans) {
+    let children = span.children;
+
+    for (div of children) {
+      div.style.background = `rgba(${gridData[counter]},${gridData[counter+1]},${gridData[counter+2]},${gridData[counter+3]})`;
+      counter += 4;
+    } 
+  }
+}
 
 //-------------tools-------------\\
 
