@@ -2,22 +2,26 @@ document.body.setAttribute("onkeydown", "keyPressHandler(event)");
 
 function keyPressHandler(e) {
   if (e.altKey) {
-    if (e.code == "KeyS") document.getElementById('pixelSizePopup').style.display='inline'; //save
-    if (e.code == "KeyR") reset(); //reset
-    if (e.code == "KeyP") sample(document.getElementById('sampler')); //pick (colour)
-    if (e.code == "KeyE") erase(document.getElementById('eraser')); //erase
-    if (e.code == "KeyF") filler(document.getElementById('filler')); //fill
-    if (e.code == "KeyC") colourer(document.getElementById('colourer')); //colour
-    if (e.code == "KeyL") liner(document.getElementById('liner')); //line
-    if (e.code == "KeyH") toggleMenu(document.getElementById('hideMenu')); //toggle menu
-    if (e.code == "KeyV") toggleView(); //toggle view
-
-    if (e.code == "KeyZ") {
-      if (e.shiftKey) {
-        redo(); //redo
-      } else {
-        undo(); //undo
-      }
+    if (e.preventDefault) {
+      e.preventDefault();
+    } else {
+      e.returnValue = false;
     }
+
+    switch (e.code) {
+      case "KeyS": document.getElementById('pixelSizePopup').style.display='inline'; break; //save
+      case "KeyR": reset(); break; //reset
+      case "KeyP": sample(document.getElementById('sampler')); break; //pick (colour)
+      case "KeyE": erase(document.getElementById('eraser')); break; //erase
+      case "KeyF": filler(document.getElementById('filler')); break; //fill
+      case "KeyC": colourer(document.getElementById('colourer')); break; //colour
+      case "KeyL": liner(document.getElementById('liner')); break; //line
+      case "KeyH": toggleMenu(document.getElementById('hideMenu')); break; //toggle menu
+      case "KeyV": toggleView(); //toggle view
+      case "KeyZ": 
+        if (e.shiftKey) redo(); //redo
+        else undo(); //undo
+        break;
+    } 
   }
 }
