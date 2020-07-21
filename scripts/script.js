@@ -222,8 +222,8 @@ function getImageData() {
 function fill(div) {
   let divCoords = div.getAttribute('data-coords').split(',').map(data=>parseInt(data));
 
-  let x = divCoords[1];
-  let y = divCoords[0];
+  let x = divCoords[0];
+  let y = divCoords[1];
 
   let maxX = elementsMatrix.length-1;
   let maxY = elementsMatrix[0].length-1;
