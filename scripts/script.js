@@ -22,6 +22,9 @@ var prevmode = false; //if you're back in time
 var hoverFilledList = []; //to append whne click and hold brush is used (to actions)
 var hoveredCurrentBackground = '';
 
+var elementsMatrix = [];
+
+
 var colour = 'black'; //brush colour
 
 
@@ -70,7 +73,7 @@ function divHover(element, fromClick) { //remember this funtion is also called o
     let currentBackground = element.style.backgroundColor;
     
     if (fromClick !== undefined) {
-      (hoveredCurrentBackground=>{setTimeout(()=>hoverFilledList.push([element, hoveredCurrentBackground]),1)})(hoveredCurrentBackground); //timeout so not reset by document mousedown event
+      (hoveredCurrentBackground=>{setTimeout(()=>hoverFilledList.push([element.getAttribute('data-coords').split(',').map(data=>parseInt(data)), hoveredCurrentBackground]),1)})(hoveredCurrentBackground); //timeout so not reset by document mousedown event
     }
 
     hoveredCurrentBackground = element.style.backgroundColor; //needs to be global so that when clicked undo function can know what the last colour was
@@ -78,15 +81,15 @@ function divHover(element, fromClick) { //remember this funtion is also called o
     if (!mouseDown) {
       element.setAttribute("onmouseleave", "this.style.backgroundColor='"+currentBackground+"';this.removeAttribute('onmouseleave')"); //if the mouse is not down, make it lose the colour when hovered out, and also delete the hover out event
     } else {
-      hoverFilledList.push([element, element.style.backgroundColor]);
+      hoverFilledList.push([element.getAttribute('data-coords').split(',').map(data=>parseInt(data)), element.style.backgroundColor]);
     }
     element.style.backgroundColor = colour;
 
   } else if (lining) { //create line
 
     if (firstPoint !== undefined) { //make line if a point is picked
-      let secondPoint = getXY(element);
-      line(firstPoint[0], firstPoint[1], secondPoint[0], secondPoint[1]);
+      let secondPoint = element.getAttribute('data-coords').split(',').map(data=>parseInt(data));
+      line(firstPoint[1], firstPoint[0], secondPoint[1], secondPoint[0]);
 
     } else { //otherwise colour in the hovered one
       let currentBackground = element.style.backgroundColor;
@@ -101,10 +104,10 @@ function divClick(element) {
   if (lining) {
     
     if (firstPoint === undefined) {
-      firstPoint = getXY(element);
+      firstPoint = element.getAttribute('data-coords').split(',').map(data=>parseInt(data));
     } else {
-      let secondPoint = getXY(element);
-      line(firstPoint[0], firstPoint[1], secondPoint[0], secondPoint[1]);
+      let secondPoint = element.getAttribute('data-coords').split(',').map(data=>parseInt(data));
+      line(firstPoint[1], firstPoint[0], secondPoint[1], secondPoint[0]);
       if (prevmode) {
         trimActionList();
       }
@@ -117,29 +120,16 @@ function divClick(element) {
   } else if (selecting) {
     changeColour(element.style.backgroundColor);
 
-  } else {
+  } else if (filling) {
     fill(element);
   }
-}
-
-function getXY(element) {
-  let xCounter = 0;
-  let yCounter = 0;
-  for (row of matrixForLiner) {
-    if (Object.values(row).indexOf(element) !== -1) {
-      xCounter = Object.values(row).indexOf(element);
-      break;
-    }
-    yCounter ++;
-  }
-  return [xCounter, yCounter];
 }
 
 /* makes and displays the grid with the following layout:
 <span><div></div><div></div></span<br>
 <span><div></div><div></div></span
 
-(each div is a pixel)*/
+(each div is a pixel)*/ //   ------------------make a global matrix of these elements for undo/fill/line
 function makeGrid(width, height) {
   //scale to the most constricted element so that all the boxes fit on the page (set the line height accordingly)
   let a = window.innerHeight/height;
@@ -155,6 +145,7 @@ function makeGrid(width, height) {
 
     newSpan.classList.add('rowSpan'); //used for getting the spans
 
+
     for (let b=0; b<width; b++) {
 
       let newDiv = document.createElement('div');
@@ -164,6 +155,7 @@ function makeGrid(width, height) {
       newDiv.setAttribute("onclick","divClick(this)");
       newDiv.setAttribute("onmouseenter","divHover(this)");
       newDiv.setAttribute("onmousedown","if(!lining){divHover(this, true)}");
+      newDiv.setAttribute("data-coords", `${a},${b}`);
       
       //make divs on the right and bottom have a border
       if (b-width === -1)  newDiv.style.borderRight  = "solid gray 1px";
@@ -184,6 +176,12 @@ function makeGrid(width, height) {
   let currentColour = getColour();
   currentColour = currentColour.concat(rgbToHsl(currentColour[0], currentColour[1], currentColour[2]));
   updateSliders(currentColour);
+
+
+  let spans = document.getElementsByClassName('rowSpan');
+  for (span of spans) {
+    elementsMatrix.push(span.children);
+  }
 }
 
 //input:element
@@ -222,36 +220,20 @@ function getImageData() {
 
 //called on for filling
 function fill(div) {
-  let elements = [];
-  let spans = document.getElementsByClassName('rowSpan');
+  let divCoords = div.getAttribute('data-coords').split(',').map(data=>parseInt(data));
 
-  let x, y;
+  let x = divCoords[1];
+  let y = divCoords[0];
 
-  let counterX = 0;
-  for (span of spans) {
-    elements.push(span.children);
+  let maxX = elementsMatrix.length-1;
+  let maxY = elementsMatrix[0].length-1;
 
-    let counterY = 0;
-    for (i of span.children) {
-      if (i == div) {
-        x = counterX;
-        y = counterY;
-        break;
-      }
-      counterY ++;
-    }
-    counterX ++;
-  }
+  let initialColour = getDivColour(elementsMatrix[x][y]).join('');
+  elementsMatrix[x][y].style.backgroundColor = colour;
+  let afterColour = getDivColour(elementsMatrix[x][y]).join('');
 
-  let maxX = elements.length-1;
-  let maxY = elements[0].length-1;
-
-  let initialColour = getDivColour(elements[x][y]).join('');
-  elements[x][y].style.backgroundColor = colour;
-  let afterColour = getDivColour(elements[x][y]).join('');
-
-  let toFillList = [[elements[x][y], x, y]];
-  let filledList = [colour]; //used to append to actions for undo
+  let toFillList = [[elementsMatrix[x][y], x, y]];
+  let filledList = [colour, [[x, y], initialColour]]; //used to append to actions for undo
 
   //debugger; //uncomment to see beautiful fill
 
@@ -262,25 +244,25 @@ function fill(div) {
       let x = div[1];
       let y = div[2];
   
-      if ((x < maxX) && (getDivColour(elements[x+1][y]).join('')==initialColour)) {
-        filledList.push([elements[x+1][y], elements[x+1][y].style.backgroundColor]);
-        elements[x+1][y].style.backgroundColor = colour;
-        toFillList.push([elements[x+1][y], x+1, y]);
+      if ((x < maxX) && (getDivColour(elementsMatrix[x+1][y]).join('')==initialColour)) {
+        filledList.push([[x+1,y], elementsMatrix[x+1][y].style.backgroundColor]);
+        elementsMatrix[x+1][y].style.backgroundColor = colour;
+        toFillList.push([elementsMatrix[x+1][y], x+1, y]);
       }
-      if ((x > 0) && (getDivColour(elements[x-1][y]).join('')==initialColour)) {
-        filledList.push([elements[x-1][y], elements[x-1][y].style.backgroundColor]);
-        elements[x-1][y].style.backgroundColor = colour;
-        toFillList.push([elements[x-1][y], x-1, y]);
+      if ((x > 0) && (getDivColour(elementsMatrix[x-1][y]).join('')==initialColour)) {
+        filledList.push([[x-1,y], elementsMatrix[x-1][y].style.backgroundColor]);
+        elementsMatrix[x-1][y].style.backgroundColor = colour;
+        toFillList.push([elementsMatrix[x-1][y], x-1, y]);
       }
-      if ((y < maxY) && (getDivColour(elements[x][y+1]).join('')==initialColour)) {
-        filledList.push([elements[x][y+1], elements[x][y+1].style.backgroundColor]);
-        elements[x][y+1].style.backgroundColor = colour;
-        toFillList.push([elements[x][y+1], x, y+1]);
+      if ((y < maxY) && (getDivColour(elementsMatrix[x][y+1]).join('')==initialColour)) {
+        filledList.push([[x,y+1], elementsMatrix[x][y+1].style.backgroundColor]);
+        elementsMatrix[x][y+1].style.backgroundColor = colour;
+        toFillList.push([elementsMatrix[x][y+1], x, y+1]);
       }
-      if ((y > 0) && (getDivColour(elements[x][y-1]).join('')==initialColour)) {
-        filledList.push([elements[x][y-1], elements[x][y-1].style.backgroundColor]);
-        elements[x][y-1].style.backgroundColor = colour;
-        toFillList.push([elements[x][y-1], x, y-1]);
+      if ((y > 0) && (getDivColour(elementsMatrix[x][y-1]).join('')==initialColour)) {
+        filledList.push([[x,y-1], elementsMatrix[x][y-1].style.backgroundColor]);
+        elementsMatrix[x][y-1].style.backgroundColor = colour;
+        toFillList.push([elementsMatrix[x][y-1], x, y-1]);
       }
     }
     if (prevmode) {
@@ -289,9 +271,6 @@ function fill(div) {
     actions.push(filledList);
     actionCounter++;
   }
-
-  
-  
 }
 
 function line(x0, y0, x1, y1) {
@@ -304,14 +283,14 @@ function line(x0, y0, x1, y1) {
   newlyLined.splice(0,1);
 
   for (element of newlyLined) {
-    element[0].style.backgroundColor = element[1];
+    elementsMatrix[element[0][0]][element[0][1]].style.backgroundColor = element[1];
   }
 
   newlyLined = [colour];
 
   while(true) {
-    let element = matrixForLiner[y0][x0];
-    newlyLined.push([element, element.style.backgroundColor]);
+    let element = elementsMatrix[y0][x0];
+    newlyLined.push([element.getAttribute('data-coords').split(',').map(data=>parseInt(data)), element.style.backgroundColor]);
     element.style.backgroundColor = colour; // Add to the list of filled elements
     
     if ((x0 === x1) && (y0 === y1)) break;
@@ -346,11 +325,11 @@ function getImage() {
 //when the reset button is clicked
 function reset() {
 
-  let filledList = [colour]; //to add to undo actions list
+  let filledList = ['']; //to add to undo actions list
 
   if (confirm('Are you sure you want to reset all pixels?')) {
     for (div of document.getElementsByClassName('pixel')) {
-      filledList.push([div, div.style.backgroundColor]);
+      filledList.push([div.getAttribute('data-coords').split(',').map(data=>parseInt(data)), div.style.backgroundColor]);
       div.style.backgroundColor = '';
     }
   }
@@ -461,18 +440,11 @@ function liner(button) {
   if (button.style.backgroundColor == 'white') {
     lining = false;
     button.style.backgroundColor = '';
-    matrixForLiner = null;
     newlyLined = null;
 
   } else {
     lining = true;
     button.style.backgroundColor = 'white';
-
-    matrixForLiner = []; //matrix of all elements used to make lines
-    let spans = document.getElementsByClassName('rowSpan');
-    for (span of spans) {
-      matrixForLiner.push(span.children);
-    }
 
     firstPoint = undefined;
     newlyLined = [];
@@ -556,7 +528,7 @@ function undo() {
 
   for (action of currentActions) {
     if (!changedElements.includes(action[0])) {
-      action[0].style.background = action[1];
+      elementsMatrix[action[0][0]][action[0][1]].style.background = action[1];
       changedElements.push(action[0]);
     }
   }
@@ -576,7 +548,7 @@ function redo() {
   let currentActions = actions[actionCounter-1].slice(1,actions[actionCounter-1].length);
 
   for (action of currentActions) {
-    action[0].style.background = previousColour;
+    elementsMatrix[action[0][0]][action[0][1]].style.background = previousColour;
   }
 }
 
