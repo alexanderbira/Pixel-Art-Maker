@@ -314,9 +314,7 @@ function handleFileSelect(event) {
 }
 
 function useFileData(data) {
-  console.log(data)
   data = LZString.decompressFromUTF16(data);
-  console.log(data)
   data = data.split('.');
 
   let metaData = data[0].split(',');
