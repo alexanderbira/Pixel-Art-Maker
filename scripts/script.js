@@ -10,6 +10,7 @@ var selecting = false; //if sampling mode is on
 var filling = false; //if filling mode is on
 var oldcol = 'black'; //the colour to revert to when the eraser is re-enabled
 var lining = false; //if the line mode is on
+var circling = false; //if circle mode is on
 var movingSetting = false; //if the colour menu is currently being moved
 
 var menuHidden = false; //keeps track of if the menu if up or down
@@ -23,7 +24,6 @@ var hoverFilledList = []; //to append whne click and hold brush is used (to acti
 var hoveredCurrentBackground = '';
 
 var elementsMatrix = [];
-
 
 var colour = 'black'; //brush colour
 
@@ -68,7 +68,7 @@ function makeImage(width, height, multiplier, data) {
 
 //function is run when a pixel is hovered
 function divHover(element, fromClick) { //remember this funtion is also called onmousedown
-  if (selecting+movingSetting+filling+lining === 0) { //if none of them are true - basically brush mode
+  if (selecting+movingSetting+filling+lining+circling === 0) { //if none of them are true - basically brush mode
 
     let currentBackground = element.style.backgroundColor;
     
@@ -95,6 +95,14 @@ function divHover(element, fromClick) { //remember this funtion is also called o
       let currentBackground = element.style.backgroundColor;
       element.setAttribute("onmouseout", "this.style.backgroundColor='"+currentBackground+"';this.removeAttribute('onmouseout');");
       element.style.backgroundColor = colour;
+
+    } 
+  } else if (circling) { //create circle
+
+    if (firstPointC !== undefined) { //make line if a point is picked
+      let secondPointC = element.getAttribute('data-coords').split(',').map(data=>parseInt(data));
+      circleFunc(firstPointC[1], firstPointC[0], secondPointC[1], secondPointC[0]);
+
     }
   }
 }
@@ -115,6 +123,22 @@ function divClick(element) {
       actionCounter++;
       firstPoint = undefined;
       newlyLined = [];
+    }
+
+  } else if (circling) {
+
+    if (firstPointC === undefined) {
+      firstPointC = element.getAttribute('data-coords').split(',').map(data=>parseInt(data));
+    } else {
+      let secondPointC = element.getAttribute('data-coords').split(',').map(data=>parseInt(data));
+      circleFunc(firstPointC[1], firstPointC[0], secondPointC[1], secondPointC[0]);
+      if (prevmode) {
+        trimActionList();
+      }
+      actions.push(newlyCircled);
+      actionCounter++;
+      firstPointC = undefined;
+      newlyCircled = [];
     }
 
   } else if (selecting) {
@@ -300,6 +324,145 @@ function line(x0, y0, x1, y1) {
   }
 }
 
+function circleFunc(x1, y1, x2, y2) {
+  let a = x1 - x2;
+  let b = y1 - y2;
+  let r = Math.round(Math.sqrt( a*a + b*b ));
+
+  let x_centre = y1;
+  let y_centre = x1;
+
+	let x = r;
+  let y = 0;
+
+  let element;
+  
+
+  newlyCircled.splice(0,1);
+
+  for (element of newlyCircled) {
+    elementsMatrix[element[0][0]][element[0][1]].style.backgroundColor = element[1];
+  }
+
+  newlyCircled = [colour];
+	
+	//Printing the initial point the 
+  //axes after translation 
+  console.log(x_centre);
+
+  //debugger;
+  
+  console.log(x, x_centre, y, y_centre, r)
+  try {
+    element = elementsMatrix[x_centre - x][y + y_centre];
+    newlyCircled.push([element.getAttribute('data-coords').split(',').map(data=>parseInt(data)), element.style.backgroundColor]);
+    element.style.backgroundColor = colour; // Add to the list of filled elements
+  } catch {}
+	
+	//When radius is zero only a single 
+	//point be printed 
+	if (r > 0) {
+    
+    try {
+      element = elementsMatrix[x + x_centre][-y + y_centre];
+      newlyCircled.push([element.getAttribute('data-coords').split(',').map(data=>parseInt(data)), element.style.backgroundColor]);
+      element.style.backgroundColor = colour; // Add to the list of filled elements
+    } catch {}
+    
+    try {
+      element = elementsMatrix[y + x_centre][x + y_centre];
+      newlyCircled.push([element.getAttribute('data-coords').split(',').map(data=>parseInt(data)), element.style.backgroundColor]);
+      element.style.backgroundColor = colour; // Add to the list of filled elements
+    } catch {}
+    
+    try {
+      element = elementsMatrix[-y + x_centre][-x + y_centre];
+      newlyCircled.push([element.getAttribute('data-coords').split(',').map(data=>parseInt(data)), element.style.backgroundColor]);
+      element.style.backgroundColor = colour; // Add to the list of filled elements
+    } catch {}
+  }
+	
+	//Initialising the value of P 
+  let P = 1 - r ;
+  
+
+	while (x > y) { 
+	
+		y += 1;
+		
+		//Mid-point inside or on the perimeter 
+		if (P <= 0) { 
+			P = P + 2 * y + 1;
+    }
+		//Mid-point outside the perimeter 
+		else {
+			x -= 1;
+			P = P + 2 * y - 2 * x + 1;
+    }
+		//All the perimeter points have 
+		//already been printed 
+		if (x < y) {
+      break;
+    }
+		
+		//Printing the generated point its reflection 
+    //in the other octants after translation 
+    try {
+      element = elementsMatrix[x + x_centre][y + y_centre];
+      newlyCircled.push([element.getAttribute('data-coords').split(',').map(data=>parseInt(data)), element.style.backgroundColor]);
+      element.style.backgroundColor = colour; // Add to the list of filled elements
+    } catch {}
+
+    try {
+      element = elementsMatrix[-x + x_centre][y + y_centre];
+      newlyCircled.push([element.getAttribute('data-coords').split(',').map(data=>parseInt(data)), element.style.backgroundColor]);
+      element.style.backgroundColor = colour; // Add to the list of filled elements
+    } catch {}
+
+    try {
+      element = elementsMatrix[x + x_centre][-y + y_centre];
+      newlyCircled.push([element.getAttribute('data-coords').split(',').map(data=>parseInt(data)), element.style.backgroundColor]);
+      element.style.backgroundColor = colour; // Add to the list of filled elements
+    } catch {}
+
+    try {
+      element = elementsMatrix[-x + x_centre][-y + y_centre];
+      newlyCircled.push([element.getAttribute('data-coords').split(',').map(data=>parseInt(data)), element.style.backgroundColor]);
+      element.style.backgroundColor = colour; // Add to the list of filled elements
+    } catch {}
+    
+		
+		//If the generated point on the line x = y then 
+		//the perimeter points have already been printed 
+		if (x != y) {
+      
+      try {
+        element = elementsMatrix[y + x_centre][x + y_centre];
+        newlyCircled.push([element.getAttribute('data-coords').split(',').map(data=>parseInt(data)), element.style.backgroundColor]);
+        element.style.backgroundColor = colour; // Add to the list of filled elements
+      } catch {}
+
+      try {
+        element = elementsMatrix[-y + x_centre][x + y_centre];
+        newlyCircled.push([element.getAttribute('data-coords').split(',').map(data=>parseInt(data)), element.style.backgroundColor]);
+        element.style.backgroundColor = colour; // Add to the list of filled elements
+      } catch {}
+
+      try {
+        element = elementsMatrix[y + x_centre][-x + y_centre];
+        newlyCircled.push([element.getAttribute('data-coords').split(',').map(data=>parseInt(data)), element.style.backgroundColor]);
+        element.style.backgroundColor = colour; // Add to the list of filled elements
+      } catch {} 
+
+      try {
+        element = elementsMatrix[-y + x_centre][-x + y_centre];
+        newlyCircled.push([element.getAttribute('data-coords').split(',').map(data=>parseInt(data)), element.style.backgroundColor]);
+        element.style.backgroundColor = colour; // Add to the list of filled elements
+      } catch {}
+    }
+  }
+}
+
 
 function trimActionList() {
   while (actions.length > actionCounter) {
@@ -361,6 +524,8 @@ function randomise(rmin=0, rmax=255, gmin=0, gmax=255, bmin=0, bmax=255, amin=1,
 
 
 
+
+
 //-------------tools-------------\\
 
 
@@ -414,6 +579,9 @@ function pen(button) {
 
   document.getElementById('liner').style.backgroundColor = '';
   lining = false;
+
+  document.getElementById('circler').style.backgroundColor = '';
+  circling = false;
 }
 
 //when the sampler button is clicked
@@ -426,6 +594,9 @@ function sample(button) {
 
   document.getElementById('liner').style.backgroundColor = '';
   lining = false;
+
+  document.getElementById('circler').style.backgroundColor = '';
+  circling = false;
 
   document.getElementById('pen').style.backgroundColor = '';
 
@@ -452,6 +623,9 @@ function erase(button) {
   document.getElementById('liner').style.backgroundColor = '';
   lining = false;
 
+  document.getElementById('circler').style.backgroundColor = '';
+  circling = false;
+
   document.getElementById('pen').style.backgroundColor = '';
 
 
@@ -476,6 +650,9 @@ function filler(button) {
 
   document.getElementById('liner').style.backgroundColor = '';
   lining = false;
+
+  document.getElementById('circler').style.backgroundColor = '';
+  circling = false;
 
   document.getElementById('pen').style.backgroundColor = '';
 
@@ -514,6 +691,9 @@ function liner(button) {
   document.getElementById('filler').style.backgroundColor = '';
   filling = false;
 
+  document.getElementById('circler').style.backgroundColor = '';
+  circling = false;
+
   document.getElementById('pen').style.backgroundColor = '';
 
   if (button.style.backgroundColor == 'white') {
@@ -528,6 +708,34 @@ function liner(button) {
 
     firstPoint = undefined;
     newlyLined = [];
+  }
+}
+
+//when the line button is clicked
+function circler(button) {
+  document.getElementById('sampler').style.backgroundColor = '';
+  selecting = false;
+
+  document.getElementById('eraser').style.backgroundColor = '';
+  colour = oldcol;
+
+  document.getElementById('filler').style.backgroundColor = '';
+  filling = false;
+
+  document.getElementById('pen').style.backgroundColor = '';
+
+  if (button.style.backgroundColor == 'white') {
+    circling = false;
+    button.style.backgroundColor = '';
+    newlyCircled = null;
+    document.getElementById('pen').style.backgroundColor = 'white';
+
+  } else {
+    circling = true;
+    button.style.backgroundColor = 'white';
+
+    firstPointC = undefined;
+    newlyCircled = [];
   }
 }
 
