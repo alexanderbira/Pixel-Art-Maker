@@ -49,6 +49,11 @@ Draws a line between the two points that you click, and shows you a preview of t
 <kbd>alt+l</kbd><br>
 ![line icon](icons/line.png?raw=true)
 
+## Draw circle
+Draws a circle between the two points that you click (first point is midpoint, second point is on circle), and shows you a preview of the circle when you hover over squares after clicking one point.<br>
+<kbd>alt+o</kbd><br>
+![circle icon](icons/circle.png?raw=true)
+
 ## Change view
 Switch between the different view modes. There's:<br>
 * Grid and background dots
