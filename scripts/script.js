@@ -475,7 +475,9 @@ function handleFileSelect(event) {
   reader.onload = (event)=>useFileData(event.target.result);
   reader.readAsText(event.target.files[0])
 }
+
 function useFileData(data) {
+  data = LZString.decompressFromUTF16(data);
   data = data.split('.');
 
   let metaData = data[0].split(',');
@@ -492,7 +494,7 @@ function useFileData(data) {
     let children = span.children;
 
     for (div of children) {
-      div.style.background = `rgba(${gridData[counter]},${gridData[counter+1]},${gridData[counter+2]},${gridData[counter+3]})`;
+      div.style.background = `rgba(${gridData[counter]},${gridData[counter+1]},${gridData[counter+2]},${gridData[counter+3]/255})`;
       counter += 4;
     } 
   }
@@ -720,6 +722,9 @@ function circler(button) {
   document.getElementById('filler').style.backgroundColor = '';
   filling = false;
 
+  document.getElementById('liner').style.backgroundColor = '';
+  lining = false;
+
   document.getElementById('pen').style.backgroundColor = '';
 
   if (button.style.backgroundColor == 'white') {
@@ -842,7 +847,9 @@ function redo() {
 function exportAsFile() {
   var pom = document.createElement('a');
 
-  pom.setAttribute('href', 'data:,' + `${settings[0]},${settings[1]}.`+getImageData());
+  let data = LZString.compressToUTF16(`${settings[0]},${settings[1]}.`+getImageData());
+
+  pom.setAttribute('href', 'data:,' + data);
   
   pom.setAttribute('download', new Date().toISOString().split('T')[0]+'.pxart');
 
