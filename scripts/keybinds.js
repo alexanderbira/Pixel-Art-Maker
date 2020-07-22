@@ -24,6 +24,7 @@ function keyPressHandler(e) {
         break;
       case "KeyD": exportAsFile(); break; //download project
       case "Space": pen(document.getElementById('pen')); break; //pen
+      case "KeyB": randomise(); break; //pen
     } 
   }
 }

@@ -314,7 +314,10 @@ function handleFileSelect(event) {
 }
 
 function useFileData(data) {
-  data = data.split('/');
+  console.log(data)
+  data = LZString.decompressFromUTF16(data);
+  console.log(data)
+  data = data.split('.');
 
   let metaData = data[0].split(',');
   document.getElementById('startWidth').value = metaData[0];
@@ -332,6 +335,28 @@ function useFileData(data) {
     for (div of children) {
       div.style.background = `rgba(${gridData[counter]},${gridData[counter+1]},${gridData[counter+2]},${gridData[counter+3]})`;
       counter += 4;
+    } 
+  }
+}
+
+//randomise(255, 255, 0, 20, 0, 255, 0, 1)
+function randomise(rmin=0, rmax=255, gmin=0, gmax=255, bmin=0, bmax=255, amin=1, amax=1) { //dev tool
+
+  colourator=(rmin, rmax, gmin, gmax, bmin, bmax, amin, amax)=>()=>`rgb(${num(rmin,rmax)},${num(gmin,gmax)},${num(bmin,bmax)}, ${decnum(amin,amax)})`;
+
+  num=(min,max)=>Math.floor((Math.random()*(max-min))+min);
+
+  decnum=(min,max)=>Math.floor(((Math.random()*(max-min))+min)*1000000)/1000000;
+
+  var randomColour = colourator(rmin, rmax, gmin, gmax, bmin, bmax, amin, amax);
+
+  let spans = document.getElementsByClassName('rowSpan');
+
+  for (span of spans) {
+    let children = span.children;
+
+    for (div of children) {
+      div.style.backgroundColor = randomColour();
     } 
   }
 }
@@ -608,11 +633,14 @@ function redo() {
   }
 }
 
+
 function exportAsFile() {
   var pom = document.createElement('a');
-  pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(`${settings[0]},${settings[1]}/`+getImageData()));
-  
 
+  let data = LZString.compressToUTF16(`${settings[0]},${settings[1]}.`+getImageData());
+
+  pom.setAttribute('href', 'data:,' + data);
+  
   pom.setAttribute('download', new Date().toISOString().split('T')[0]+'.pxart');
 
   if (document.createEvent) {
