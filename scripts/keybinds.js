@@ -24,7 +24,7 @@ function keyPressHandler(e) {
         break;
       case "KeyD": exportAsFile(); break; //download project
       case "Space": pen(document.getElementById('pen')); break; //pen
-      case "KeyB": randomise(); break; //pen
+      case "KeyB": randomise.apply(undefined, prompt("Type in comma-separated values for the following (in order, no spaces):\nred min, red max, green min, green max, blue min, blue max, alpha min, alpha max.\nRGB can be 0-255, alpha can be 0-1. Example: 255,255,0,0,0,0,0.5,1").split(',').map(value=>Number(value))); break; //pen
     } 
   }
 }
