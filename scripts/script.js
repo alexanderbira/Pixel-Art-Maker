@@ -497,6 +497,7 @@ function colourer(button) {
     button.style.borderColor = colour;
     document.getElementById('colours').style.display = 'none';
   } else {
+    changeColour(colour);
     button.style.backgroundColor = 'white';
     document.getElementById('colours').style.display = 'block';
   }

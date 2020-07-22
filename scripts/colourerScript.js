@@ -18,10 +18,22 @@ function changeColour(col) {
   }
 
   let currentColour = getColour();
+
+  document.getElementById('nativeSelector').value = rgbToHex(currentColour[0], currentColour[1], currentColour[2]);
+
   currentColour = currentColour.concat(rgbToHsl(currentColour[0], currentColour[1], currentColour[2]));
 
   updateSliders(currentColour);
 
+}
+
+function componentToHex(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+}
+
+function rgbToHex(r, g, b) {
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
 //called on when sliders change
