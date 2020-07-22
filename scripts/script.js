@@ -475,9 +475,7 @@ function handleFileSelect(event) {
   reader.onload = (event)=>useFileData(event.target.result);
   reader.readAsText(event.target.files[0])
 }
-
 function useFileData(data) {
-  data = LZString.decompressFromUTF16(data);
   data = data.split('.');
 
   let metaData = data[0].split(',');
@@ -844,9 +842,7 @@ function redo() {
 function exportAsFile() {
   var pom = document.createElement('a');
 
-  let data = LZString.compressToUTF16(`${settings[0]},${settings[1]}.`+getImageData());
-
-  pom.setAttribute('href', 'data:,' + data);
+  pom.setAttribute('href', 'data:,' + `${settings[0]},${settings[1]}.`+getImageData());
   
   pom.setAttribute('download', new Date().toISOString().split('T')[0]+'.pxart');
 
