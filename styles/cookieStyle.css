@@ -1,0 +1,38 @@
+.cookieInfo {
+  background-color: rgb(53, 53, 53);
+  padding: 10px;
+  bottom: 0px;
+  left: 0px;
+  position: fixed;
+  width: 100vw;
+  font-size: min(3vw, 15px);
+  color: white;
+  display: none;
+}
+.cookieInfo button {
+  width: 20%;
+  height: calc(100% - 10px);
+  position: absolute;
+  right: 25px;
+  top: 5px;
+  text-align: center;
+  background: rgb(161, 201, 161);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition-duration: 0.3s;
+  font-size: min(3vw, 15px);
+}
+.cookieInfo button:hover {
+  transition-duration: 0.3s;
+  background-color: rgb(130, 170, 130);
+}
+.cookieInfo p {
+  margin-right: 25%;
+}
+.cookieInfo a:visited {
+  color: lightgray;
+}
+.cookieInfo a {
+  color: white;
+}

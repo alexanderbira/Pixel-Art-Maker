@@ -116,6 +116,16 @@
       </form>
     </div>
 
+    <div class="cookieInfo">
+      <p>
+        This website uses cookies - but don't worry, we can't track you.
+        <br>
+        <a href="cookies.html">Click here to know why and how we use cookies</a>
+      </p>
+      <button onclick="sessionStorage.setItem('dismissed','true');document.getElementsByClassName('cookieInfo')[0].style.display='none';">Dismiss</button>
+    </div>
+    <script>if(sessionStorage.getItem('dismissed')==null)document.getElementsByClassName('cookieInfo')[0].style.display='block';</script>
+
     
     <script src="scripts/script.js"></script>
     <script src="scripts/generatepng.js"></script>

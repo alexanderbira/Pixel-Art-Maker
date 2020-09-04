@@ -344,15 +344,10 @@ function circleFunc(x1, y1, x2, y2) {
     elementsMatrix[element[0][0]][element[0][1]].style.backgroundColor = element[1];
   }
 
-  newlyCircled = [colour];
-	
-	//Printing the initial point the 
-  //axes after translation 
-  console.log(x_centre);
+  newlyCircled = [colour]; 
 
   //debugger;
   
-  console.log(x, x_centre, y, y_centre, r)
   try {
     element = elementsMatrix[x_centre - x][y + y_centre];
     newlyCircled.push([element.getAttribute('data-coords').split(',').map(data=>parseInt(data)), element.style.backgroundColor]);
